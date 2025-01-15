@@ -1,0 +1,76 @@
+:root{
+    --bgColorTarjeta: #414bd8;
+    --bgColorBtn: #a4a705;
+    --bgColorBtnHOVER: #7d8006;
+    --ColorBtn: #fff;
+    --fuenteFina: 300;
+    --fuenteMedia: 600;
+    --fuenteGruesa: 800;
+    --tiempoTransicion: .4s;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; 
+    padding: 20px; 
+    box-sizing: border-box; 
+    max-width: 1180px;
+    margin: auto;
+}
+
+    h1{
+        text-align: center;
+        color: var(--ColorBtn);
+        letter-spacing: 1px;
+    }
+
+    .tarjeta-seleccion{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: calc(25% - 20px); 
+        max-width: 300px; 
+        min-width: 150px; 
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background-color: var(--bgColorTarjeta);
+    }
+
+    .tarjeta-seleccion:hover{
+        scale: 1.02;
+        transition: var(--tiempoTransicion);
+    }
+
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    img:hover{
+        transform: scale(1.01) translateX(5px);
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: var(--bgColorBtn);
+        color: var(--ColorBtn);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: var(--fuenteMedia);
+        letter-spacing: 1px;
+    }
+
+    button:hover {
+        background-color: var(--bgColorBtnHOVER);
+        transition: var(--tiempoTransicion);
+    }

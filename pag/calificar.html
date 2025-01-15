@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/calificar.css">
+    <title>Calificar Vendedor</title>
+</head>
+<body>
+    <header>
+        <h1>¡No olvide calificar al vendedor!</h1>
+        <h2 id="vendedor-display"></h2>
+    </header>
+    
+    <main>
+
+        <div id="vendedor-display" class="vendedor-info"></div>
+
+        <!-- Opciones de calificación -->
+        <div class="calificaciones">
+            <button class="rating-btn" data-rating="Mala">
+                <img src="https://cdn-icons-png.flaticon.com/512/743/743418.png" alt="Mala">
+                <p>Mala</p>
+            </button>
+            <button class="rating-btn" data-rating="Regular">
+                <img src="https://cdn-icons-png.flaticon.com/512/743/743319.png" alt="Regular">
+                <p>Regular</p>
+            </button>
+            <button class="rating-btn" data-rating="Buena">
+                <img src="https://cdn-icons-png.flaticon.com/512/743/743338.png" alt="Muy Buena">
+                <p>Muy Buena</p>
+            </button>
+        </div>
+        <div id="mensaje-display"></div>
+    </main>
+
+    <!-- Script para manejar la lógica -->
+    <script src="/js/sheets.js"></script>
+</body>
+</html>
