@@ -7,6 +7,7 @@
     --ColorBtn: #fff;
     --bgBtnCerrar: #f30e25;
     --bgBtnCerrarHover: #c9182a;
+    --modalAnchoMax: 400px;
     --fuenteFina: 300;
     --fuenteMedia: 600;
     --fuenteGruesa: 800;
@@ -59,11 +60,12 @@ body {
             background-color: var(--bgColorTarjeta);
             padding: 20px;
             border-radius: 10px;
-            max-width: 300px;
+            max-width: var(--modalAnchoMax);
             text-align: center;
         }
-        .modal-content h2 {
+        #modal-title {
             color: var(--ColorBtn);
+            width: var(--modalAnchoMax);
         }
         .modal-content div {
             margin: 10px 0;
@@ -86,10 +88,14 @@ body {
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 80%;
+            font-size: large;
         }
+
         #send-btn:hover {
             background-color: var(--bgColorBtnHover);
         }
+
         #close-btn {
             padding: 10px 20px;
             background-color: var(--bgBtnCerrar);
@@ -97,7 +103,10 @@ body {
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 80%;
+            font-size: large;
         }
+
         #close-btn:hover {
             background-color: var(--bgBtnCerrarHover);
         }
