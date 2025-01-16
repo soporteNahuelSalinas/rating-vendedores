@@ -7,6 +7,19 @@ const vendedorSeleccionado = localStorage.getItem('vendedorSeleccionado');
 // Obtener el elemento para mostrar mensajes
 const mensajeDisplay = document.getElementById('mensaje-display');
 
+console.log('app.js cargado');
+
+// Si estamos en la página de selección
+if (window.location.pathname.includes('index.html')) {
+    console.log('Página index.html detectada');
+}
+
+// Si estamos en la página de calificación
+if (window.location.pathname.includes('/pag/calificar.html')) {
+    console.log('Página calificar.html detectada');
+}
+
+
 // Si estamos en la página de selección (index.html)
 if (window.location.pathname.includes('index.html')) {
     const botonesVendedor = document.querySelectorAll('.vendedor-btn');
@@ -16,13 +29,13 @@ if (window.location.pathname.includes('index.html')) {
         boton.addEventListener('click', () => {
             const vendedorId = boton.getAttribute('data-id');
             localStorage.setItem('vendedorSeleccionado', vendedorId); // Guardar vendedor en localStorage
-            window.open('https://rating-vendedores.vercel.app/pag/calificar.html', '_blank'); // Abrir en una nueva ventana
+            window.open('/pag/calificar.html', '_blank'); // Abrir en una nueva ventana
         });
     });
 }
 
 // Si estamos en la página de calificación (calificar.html)
-if (window.location.pathname.includes('https://rating-vendedores.vercel.app/pag/calificar.html')) {
+if (window.location.pathname.includes('/pag/calificar.html')) {
     const ratingButtons = document.querySelectorAll('.rating-btn');
     const vendedorDisplay = document.getElementById('vendedor-display');
 
