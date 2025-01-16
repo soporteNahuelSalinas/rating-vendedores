@@ -71,6 +71,7 @@ body {
 
         #modal-items{
             font-size: large;
+            margin-inline: 4px;
         }
 
         #send-btn {
