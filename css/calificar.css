@@ -59,3 +59,16 @@ header{
     p{
         font-size: large;
     }
+
+    /* Botón de pantalla completa */
+    #fullscreen-btn{
+        background-color: var(--bgColorTarjeta);
+        color: var(--ColorBtn);
+        padding: 4px 14px 4px 14px;
+        border-radius: 4px;
+        opacity: .8;
+        border: none;
+        margin: auto;
+        display: grid;
+        margin-top: 24vh;
+    }
