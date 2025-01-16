@@ -1,18 +1,7 @@
 console.log('app.js cargado');
 
-// Si estamos en la página de selección
-if (window.location.pathname.includes('index.html')) {
-    console.log('Página index.html detectada');
-}
-
-// Si estamos en la página de calificación
-if (window.location.pathname.includes('/pag/calificar.html')) {
-    console.log('Página calificar.html detectada');
-}
-
-
 // Si estamos en la página de selección (index.html)
-if (window.location.pathname.includes('index.html')) {
+if (window.location.pathname.includes('')) {
     const botonesVendedor = document.querySelectorAll('.vendedor-btn');
 
     // Evento para seleccionar un vendedor
