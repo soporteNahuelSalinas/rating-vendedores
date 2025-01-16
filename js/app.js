@@ -14,7 +14,7 @@ const preguntas = {
             '⚙️Asesoramiento técnico'
         ]
     },
-    Regular: {
+    Normal: {
         title: '¿Qué aspectos sugeriría mejorar?🙏',
         items: [
             '🔋Atención más rápida',

@@ -11,11 +11,12 @@
     <title>Calificar Vendedor</title>
 </head>
 <body>
-    <header>
-        <h1>¡No olvide calificar al vendedor!</h1>
-        <h2 id="vendedor-display"></h2>
-    </header>
+
+    <button class="logotipo"><img id="logotipo" src="https://tienda.anywayinsumos.com.ar/img/producto-1742-logo-1721508805.jpg" alt="anyway-logo"></button>
     
+    <header>
+        <h1>¡No olvides calificar al vendedor!</h1>
+    </header>
     <main>
 
         <div class="vendedor-info" id="vendedor-display"></div>
@@ -26,13 +27,13 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/743/743418.png" alt="Mala">
                 <p>Mala</p>
             </button>
-            <button class="rating-btn" data-rating="Regular">
-                <img src="https://cdn-icons-png.flaticon.com/512/743/743319.png" alt="Regular">
+            <button class="rating-btn" data-rating="Normal">
+                <img src="https://cdn-icons-png.flaticon.com/512/743/743319.png" alt="Normal">
                 <p>Regular</p>
             </button>
             <button class="rating-btn" data-rating="Buena">
-                <img src="https://cdn-icons-png.flaticon.com/512/743/743338.png" alt="Muy Buena">
-                <p>Muy Buena</p>
+                <img src="https://cdn-icons-png.flaticon.com/512/743/743338.png" alt="Buena">
+                <p>Buena</p>
             </button>
         </div>
         <div id="mensaje-display"></div>
@@ -42,8 +43,8 @@
     <div id="modal" class="modal hidden">
         <h2 id="modal-title"></h2>
         <div id="modal-items"></div>
-        <button id="send-btn" class="hidden">Enviar</button>
-        <button id="close-btn">Cerrar</button>
+        <button id="send-btn" class="hidden button">Enviar</button>
+        <button id="close-btn" class="button">Cerrar</button>
     </div>
 
     <!-- Script para manejar la lógica -->

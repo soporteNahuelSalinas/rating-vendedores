@@ -3,6 +3,7 @@
     --fontFamily: poppins;
     --bgColorTarjeta: #414bd8;
     --bgColorBtn: #5d5ff1;
+    --bgColorBtnHover: #272bfd;
     --ColorBtn: #fff;
     --bgBtnCerrar: #f30e25;
     --bgBtnCerrarHover: #c9182a;
@@ -33,19 +34,22 @@ body {
         .hidden {
             display: none;
         }
+
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
+            display: grid;
             justify-content: center;
+            align-content: center;
+            text-align: center;
             align-items: center;
             visibility: hidden;
             opacity: 0;
             transition: visibility 0s, opacity var(--transitionTime) ease;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.897);
         }
         .modal.visible {
             visibility: visible;
@@ -55,17 +59,20 @@ body {
             background-color: var(--bgColorTarjeta);
             padding: 20px;
             border-radius: 10px;
-            width: 90%;
             max-width: 300px;
             text-align: center;
         }
         .modal-content h2 {
-            margin-bottom: 15px;
             color: var(--ColorBtn);
         }
         .modal-content div {
             margin: 10px 0;
         }
+
+        #modal-items{
+            font-size: large;
+        }
+
         #send-btn {
             margin-top: 20px;
             padding: 10px 20px;
@@ -76,11 +83,10 @@ body {
             cursor: pointer;
         }
         #send-btn:hover {
-            background-color: #78c141;
+            background-color: var(--bgColorBtnHover);
         }
         #close-btn {
-            margin-top: 10px;
-            padding: 5px 10px;
+            padding: 10px 20px;
             background-color: var(--bgBtnCerrar);
             color: var(--ColorBtn);
             border: none;
