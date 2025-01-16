@@ -74,6 +74,10 @@ body {
             margin-block: 4px;
         }
 
+        #modal-items div{
+            margin-block: 4px;
+        }
+
         #send-btn {
             margin-top: 20px;
             padding: 10px 20px;
