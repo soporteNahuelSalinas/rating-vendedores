@@ -16,13 +16,13 @@ if (window.location.pathname.includes('index.html')) {
         boton.addEventListener('click', () => {
             const vendedorId = boton.getAttribute('data-id');
             localStorage.setItem('vendedorSeleccionado', vendedorId); // Guardar vendedor en localStorage
-            window.open('/pag/calificar.html', '_blank'); // Abrir en una nueva ventana
+            window.open('https://rating-vendedores.vercel.app/pag/calificar.html', '_blank'); // Abrir en una nueva ventana
         });
     });
 }
 
 // Si estamos en la página de calificación (calificar.html)
-if (window.location.pathname.includes('/pag/calificar.html')) {
+if (window.location.pathname.includes('https://rating-vendedores.vercel.app/pag/calificar.html')) {
     const ratingButtons = document.querySelectorAll('.rating-btn');
     const vendedorDisplay = document.getElementById('vendedor-display');
 
