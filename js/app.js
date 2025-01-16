@@ -1,110 +1,132 @@
 // URL del webhook
 const webhookUrl = 'https://hook.us2.make.com/xmayxoy1jlf2pjpvwf6b2wmio99w5wcf';
 
-// Obtener el vendedor seleccionado desde el localStorage
-const vendedorSeleccionado = localStorage.getItem('vendedorSeleccionado');
-
-// Obtener el elemento para mostrar mensajes
-const mensajeDisplay = document.getElementById('mensaje-display');
-
-console.log('app.js cargado');
-
-// Si estamos en la página de selección
-if (window.location.pathname.includes('index.html')) {
-    console.log('Página index.html detectada');
-}
-
-// Si estamos en la página de calificación
-if (window.location.pathname.includes('/pag/calificar.html')) {
-    console.log('Página calificar.html detectada');
-}
-
-
-// Si estamos en la página de selección (index.html)
-if (window.location.pathname.includes('index.html')) {
-    const botonesVendedor = document.querySelectorAll('.vendedor-btn');
-
-    // Evento para seleccionar un vendedor
-    botonesVendedor.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const vendedorId = boton.getAttribute('data-id');
-            localStorage.setItem('vendedorSeleccionado', vendedorId); // Guardar vendedor en localStorage
-            window.open('/pag/calificar.html', '_blank'); // Abrir en una nueva ventana
-        });
-    });
-}
-
-// Si estamos en la página de calificación (calificar.html)
-if (window.location.pathname.includes('/pag/calificar.html')) {
-    const ratingButtons = document.querySelectorAll('.rating-btn');
-    const vendedorDisplay = document.getElementById('vendedor-display');
-
-    // Mostrar el nombre del vendedor seleccionado
-    if (vendedorSeleccionado) {
-        vendedorDisplay.textContent = `Vendedor: ${vendedorSeleccionado}`;
-    } else {
-        vendedorDisplay.textContent = 'Error: No se seleccionó ningún vendedor.';
+// Preguntas para cada nivel de atención
+const preguntas = {
+    Buena: {
+        title: '¿Qué aspectos de la atención te parecieron más destacados?😎',
+        items: [
+            '🔋Rapidez en la atención',
+            '🙋Disposición a la atención',
+            '🧠Conocimiento técnico',
+            '💯Capacidad de resolución',
+            '🤝Amabilidad, empatía',
+            '⚙️Asesoramiento técnico'
+        ]
+    },
+    Regular: {
+        title: '¿Qué aspectos sugeriría mejorar?🙏',
+        items: [
+            '🔋Atención más rápida',
+            '🧠Conocimientos del producto',
+            '💰Conocer las financiaciones',
+            '✋Mayor predisposición',
+            '🤝Amabilidad y empatía'
+        ]
+    },
+    Mala: {
+        title: '¿Qué aspectos sugeriría mejorar?🙏',
+        items: [
+            '🔋Atención más rápida',
+            '🧠Conocimientos del producto',
+            '💰Conocer las financiaciones',
+            '✋Mayor predisposición',
+            '🤝Amabilidad y empatía'
+        ]
     }
+};
 
-    // Evento para enviar el rating al webhook
-    ratingButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const rating = button.getAttribute('data-rating');
+// Obtener elementos
+const ratingButtons = document.querySelectorAll('.rating-btn');
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalItems = document.getElementById('modal-items');
+const sendBtn = document.getElementById('send-btn');
+const closeBtn = document.getElementById('close-btn');
+const vendedorSeleccionado = localStorage.getItem('vendedorSeleccionado') || 'Vendedor No Seleccionado';
 
-            // Crear el objeto de datos
-            const data = {
-                vendedor: vendedorSeleccionado,
-                rating: rating
-            };
+// Variables para seguimiento
+let nivelSeleccionado = null;
+let itemSeleccionado = null;
 
-            // Enviar al webhook
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                // Leer la respuesta como texto primero
-                return response.text().then(text => {
-                    if (!response.ok) {
-                        throw new Error(`Error: ${response.statusText}, Detalles: ${text}`);
-                    }
+// Mostrar modal con contenido específico
+function mostrarModal(nivel) {
+    nivelSeleccionado = nivel;
+    const { title, items } = preguntas[nivel];
 
-                    if (text.trim() === "Accepted") {
-                        return { status: "success", message: "¡Gracias por tu calificación!" };
-                    }
-
-                    // Intenta analizar como JSON
-                    try {
-                        const json = JSON.parse(text);
-                        return json;
-                    } catch (err) {
-                        return { status: "success", message: text };
-                    }
-                });
-            })
-            .then(responseData => {
-                console.log('Datos enviados:', responseData);
-                mensajeDisplay.textContent = responseData.message;
-                mensajeDisplay.style.color = '#22c594';
-
-                // Ocultar el mensaje después de 3 segundos
-                setTimeout(() => {
-                    mensajeDisplay.textContent = '';
-                }, 3000);
-            })
-            .catch(error => {
-                console.error('Error al enviar datos:', error);
-                mensajeDisplay.textContent = 'Hubo un error al enviar tu calificación. Detalle: ' + error.message; // Mostrar mensaje de error
-                mensajeDisplay.style.color = 'red';
-
-                // Ocultar el mensaje después de 3 segundos
-                setTimeout(() => {
-                    mensajeDisplay.textContent = '';
-                }, 3000);
-            });
-        });
-    });
+    // Configurar contenido del modal
+    modalTitle.textContent = title;
+    modalItems.innerHTML = items
+        .map((item, index) => `<div><input type="radio" id="item-${index}" name="item" value="${item}"><label for="item-${index}">${item}</label></div>`)
+        .join('');
+    sendBtn.classList.add('hidden');
+    modal.classList.add('visible');
 }
+
+// Enviar datos al webhook
+function enviarDatos() {
+    const data = {
+        vendedor: vendedorSeleccionado,
+        nivel: nivelSeleccionado,
+        aspecto: itemSeleccionado
+    };
+
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Datos enviados con éxito:', data);
+            mostrarAgradecimiento(); // Muestra el mensaje de agradecimiento
+        })
+        .catch(error => {
+            console.error('Error al enviar datos:', error);
+            mostrarAgradecimiento(); // Muestra el mensaje de agradecimiento incluso si hay error
+        });
+
+    // Ocultar modal después de un pequeño retraso si se desea
+    setTimeout(() => {
+        modal.classList.remove('visible');
+    }, 2000); // Cambia el tiempo según sea necesario
+}
+
+// Mostrar mensaje de agradecimiento
+function mostrarAgradecimiento() {
+    // Aquí puedes agregar un mensaje de agradecimiento en el modal
+    modalTitle.textContent = '¡Gracias por tu feedback!'; // Mensaje de agradecimiento
+    modalItems.innerHTML = ''; // Limpiar los elementos del modal
+    sendBtn.classList.add('hidden'); // Ocultar el botón de enviar
+    closeBtn.classList.add('hidden');
+    modal.classList.add('visible'); // Mostrar el modal
+
+    // Opcionalmente, puedes cerrar el modal después de un tiempo
+    setTimeout(() => {
+        modal.classList.remove('visible');
+    }, 3000); // Cerrar después de 2 segundos
+}
+
+// Listeners para botones de nivel de atención
+ratingButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const nivel = button.getAttribute('data-rating');
+        mostrarModal(nivel);
+    });
+});
+
+// Listener para cerrar el modal
+closeBtn.addEventListener('click', () => {
+    modal.classList.remove('visible');
+});
+
+// Listener para habilitar el botón de enviar al seleccionar un ítem
+modalItems.addEventListener('change', event => {
+    if (event.target.name === 'item') {
+        itemSeleccionado = event.target.value;
+        sendBtn.classList.remove('hidden');
+    }
+});
+
+// Listener para el botón de enviar
+sendBtn.addEventListener('click', enviarDatos);

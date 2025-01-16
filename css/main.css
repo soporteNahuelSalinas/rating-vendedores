@@ -3,6 +3,13 @@
 :root{
     --bgColor: #2831aa;
     --fontFamily: poppins;
+    --bgColorTarjeta: #414bd8;
+    --bgColorBtn: #90e034;
+    --ColorBtn: #fff;
+    --fuenteFina: 300;
+    --fuenteMedia: 600;
+    --fuenteGruesa: 800;
+    --ratingBtnHover: #2d570d;
 }
 
 *{
