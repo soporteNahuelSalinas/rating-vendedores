@@ -16,7 +16,7 @@
     
     <main>
 
-        <div id="vendedor-display" class="vendedor-info"></div>
+        <div class="vendedor-info" id="vendedor-display"></div>
 
         <!-- Opciones de calificación -->
         <div class="calificaciones">
@@ -35,6 +35,14 @@
         </div>
         <div id="mensaje-display"></div>
     </main>
+
+    <!-- Modal para mostrar la calificación -->
+    <div id="modal" class="modal hidden">
+        <h2 id="modal-title"></h2>
+        <div id="modal-items"></div>
+        <button id="send-btn" class="hidden">Enviar</button>
+        <button id="close-btn">Cerrar</button>
+    </div>
 
     <!-- Script para manejar la lógica -->
     <script src="/js/app.js" defer></script>
