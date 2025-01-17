@@ -110,3 +110,22 @@ body {
         #close-btn:hover {
             background-color: var(--bgBtnCerrarHover);
         }
+
+
+        input[type="radio"]{
+            display: none;
+        }
+
+        input[type="radio"] + label{
+            font-size: 4.5vh;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        input[type="radio"] + label:hover{
+            background-color: var(--bgColor);
+            margin-right: 5px;
+            padding: 4px 4px 4px 4px;
+            border-radius: 4px;
+            transition: var(--transitionTime);
+        }
