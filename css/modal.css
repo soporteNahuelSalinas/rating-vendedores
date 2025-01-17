@@ -117,7 +117,7 @@ body {
         }
 
         input[type="radio"] + label{
-            font-size: 4.5vh;
+            font-size: larger;
             color: #ccc;
             cursor: pointer;
         }
