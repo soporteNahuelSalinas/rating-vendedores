@@ -4,7 +4,7 @@ const webhookUrl = 'https://hook.us2.make.com/xmayxoy1jlf2pjpvwf6b2wmio99w5wcf';
 // Preguntas para cada nivel de atención
 const preguntas = {
     Buena: {
-        title: '¿Qué aspectos de la atención te parecieron más destacados?😎',
+        title: '¿Qué aspecto de la atención te pareció el más destacado?😎',
         items: [
             '🔋Rapidez en la atención',
             '🙋Disposición a la atención',
@@ -15,7 +15,7 @@ const preguntas = {
         ]
     },
     Normal: {
-        title: '¿Qué aspectos sugeriría mejorar?🙏',
+        title: '¿Qué aspecto sugerirías mejorar?🙏',
         items: [
             '🔋Atención más rápida',
             '🧠Conocimientos del producto',
@@ -25,7 +25,7 @@ const preguntas = {
         ]
     },
     Mala: {
-        title: '¿Qué aspectos sugeriría mejorar?🙏',
+        title: '¿Qué aspecto sugerirías mejorar?🙏',
         items: [
             '🔋Atención más rápida',
             '🧠Conocimientos del producto',
@@ -44,6 +44,12 @@ const modalItems = document.getElementById('modal-items');
 const sendBtn = document.getElementById('send-btn');
 const closeBtn = document.getElementById('close-btn');
 const vendedorSeleccionado = localStorage.getItem('vendedorSeleccionado') || 'Vendedor No Seleccionado';
+
+// Elementos para el modal del número de teléfono
+const phoneModal = document.getElementById('phone-modal');
+const phoneInput = document.getElementById('phone-input');
+const confirmPhoneBtn = document.getElementById('confirm-phone-btn');
+const closePhoneModalBtn = document.getElementById('close-phone-modal-btn');
 
 // Variables para seguimiento
 let nivelSeleccionado = null;
@@ -64,11 +70,12 @@ function mostrarModal(nivel) {
 }
 
 // Enviar datos al webhook
-function enviarDatos() {
+function enviarDatos(telefono = null) {
     const data = {
         vendedor: vendedorSeleccionado,
         nivel: nivelSeleccionado,
-        aspecto: itemSeleccionado
+        aspecto: itemSeleccionado,
+        telefono: telefono
     };
 
     fetch(webhookUrl, {
@@ -79,22 +86,16 @@ function enviarDatos() {
         .then(response => response.json())
         .then(data => {
             console.log('Datos enviados con éxito:', data);
-            mostrarAgradecimiento(); // Muestra el mensaje de agradecimiento
+            mostrarAgradecimiento();
         })
         .catch(error => {
             console.error('Error al enviar datos:', error);
-            mostrarAgradecimiento(); // Muestra el mensaje de agradecimiento incluso si hay error
+            mostrarAgradecimiento();
         });
-
-    // Ocultar modal después de un pequeño retraso si se desea
-    setTimeout(() => {
-        modal.classList.remove('visible');
-    }, 2000); // Cambia el tiempo según sea necesario
 }
 
 // Mostrar mensaje de agradecimiento
 function mostrarAgradecimiento() {
-    // Aquí puedes agregar un mensaje de agradecimiento en el modal
     modalTitle.textContent = '¡Gracias por tu feedback!'; // Mensaje de agradecimiento
     modalItems.innerHTML = ''; // Limpiar los elementos del modal
     sendBtn.classList.add('hidden'); // Ocultar el botón de enviar
@@ -104,7 +105,7 @@ function mostrarAgradecimiento() {
     // Opcionalmente, puedes cerrar el modal después de un tiempo
     setTimeout(() => {
         modal.classList.remove('visible');
-    }, 3000); // Cerrar después de 2 segundos
+    }, 3000);
 }
 
 // Listeners para botones de nivel de atención
@@ -120,6 +121,14 @@ closeBtn.addEventListener('click', () => {
     modal.classList.remove('visible');
 });
 
+// Listener para cerrar el modal del teléfono y enviar datos
+closePhoneModalBtn.addEventListener('click', () => {
+    const telefono = phoneInput.value.trim() || null; // Si no se proporciona, se establece como null
+    phoneModal.classList.remove('visible');
+    modal.classList.remove('visible'); // Cerrar el modal principal
+    enviarDatos(telefono); // Enviar datos, ya sea con el número de teléfono o sin él
+});
+
 // Listener para habilitar el botón de enviar al seleccionar un ítem
 modalItems.addEventListener('change', event => {
     if (event.target.name === 'item') {
@@ -129,4 +138,14 @@ modalItems.addEventListener('change', event => {
 });
 
 // Listener para el botón de enviar
-sendBtn.addEventListener('click', enviarDatos);
+sendBtn.addEventListener('click', () => {
+    phoneModal.classList.add('visible'); // Mostrar el modal para ingresar el número de teléfono
+});
+
+// Confirmar el número de teléfono y enviar datos al webhook
+confirmPhoneBtn.addEventListener('click', () => {
+    const telefono = phoneInput.value.trim() || null;
+    enviarDatos(telefono); // Enviar datos con o sin número de teléfono
+    phoneModal.classList.remove('visible'); // Cerrar modal del teléfono
+    modal.classList.remove('visible'); // Cerrar el modal principal
+});

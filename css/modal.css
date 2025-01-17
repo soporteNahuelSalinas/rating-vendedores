@@ -129,3 +129,29 @@ body {
             border-radius: 4px;
             transition: var(--transitionTime);
         }
+
+
+/* Phone Modal */
+#phone-input{
+    color: black;
+    padding-block: 6px;
+    max-width: 200px;
+    border-radius: 4px;
+    border: none;
+    margin: auto;
+}
+
+    #confirm-phone-btn{
+        background-color: var(--bgColorTarjeta);
+    }
+
+        #confirm-phone-btn:hover{
+            background-color: var(--bgColor);
+        }
+    
+    #close-phone-modal-btn{
+        background-color: var(--bgBtnCerrar);
+    }
+        #close-phone-modal-btn:hover{
+            background-color: var(--bgBtnCerrarHover);
+        }
