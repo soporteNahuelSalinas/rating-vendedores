@@ -136,13 +136,14 @@ body {
     color: rgba(0, 0, 0, 0.897);
     padding-block: 6px;
     padding-inline: 12px;
-    width: 32vh;
+    width: 28vh;
     border-radius: 4px;
     border: none;
     margin: auto;
     font-size: larger;
     letter-spacing: 1px;
     font-weight: var(--fuenteMedia);
+    margin-bottom: 8px;
 }
 
     #confirm-phone-btn{
