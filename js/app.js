@@ -66,9 +66,9 @@ function mostrarModal(nivel) {
         .map((item, index) => `<div><input type="radio" id="item-${index}" name="item" value="${item}"><label for="item-${index}">${item}</label></div>`)
         .join('');
     sendBtn.classList.add('hidden');
+    closeBtn.classList.remove('hidden');
     modal.classList.add('visible');
 }
-
 // Enviar datos al webhook
 function enviarDatos(telefono = null) {
     const data = {
