@@ -48,16 +48,16 @@ header{
         filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.26));
     }
 
+    .rating-btn p{
+        font-size: 2.5vh;
+    }
+
     img {
         width: 13vh;
         height: 13vh;
         object-fit: cover;
         margin-bottom: 1vh;
         margin: auto;
-    }
-
-    p{
-        font-size: large;
     }
 
     /* Botón de pantalla completa */
