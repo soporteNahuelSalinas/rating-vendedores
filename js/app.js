@@ -153,3 +153,16 @@ confirmPhoneBtn.addEventListener('click', () => {
     phoneModal.classList.remove('visible'); // Cerrar modal del teléfono
     modal.classList.remove('visible'); // Cerrar el modal principal
 });
+
+/* Mantener la pantalla encendida */
+let wakeLock = null;
+
+    // Función para activar el Wake Lock
+    async function activarWakeLock() {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake Lock activado');
+      } catch (err) {
+        console.error('Error al activar el Wake Lock:', err);
+      }
+    }
