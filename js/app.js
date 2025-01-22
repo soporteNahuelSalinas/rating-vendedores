@@ -157,9 +157,13 @@ confirmPhoneBtn.addEventListener('click', () => {
 /* Mantener la pantalla encendida */
 let wakeLock = null;
 
-    try {
+    // Función para activar el Wake Lock
+    async function activarWakeLock() {
+      try {
         wakeLock = await navigator.wakeLock.request('screen');
         console.log('Wake Lock activado');
-    } catch (err) {
-    console.error('Error al activar el Wake Lock:', err);
-  }
+      } catch (err) {
+        console.error('Error al activar el Wake Lock:', err);
+      }
+    }
+activarWakeLock();
