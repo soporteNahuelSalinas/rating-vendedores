@@ -71,7 +71,8 @@ function mostrarModal(nivel) {
 
     setTimeout(() => {
         modal.classList.remove('visible');
-    }, 60000);
+        enviarDatos()
+    }, 6000);
 }
 // Enviar datos al webhook
 function enviarDatos(telefono = null) {
