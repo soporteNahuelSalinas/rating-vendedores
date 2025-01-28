@@ -1,6 +1,7 @@
 // URL del webhook
 const webhookUrl = 'https://hook.us2.make.com/on9f0exvo1qz6qbg2f98h7c9nyt2x04n';
 // const webhookUrl = 'https://evolved-parrot-explicitly.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
+
 // Preguntas para cada nivel de atención
 const preguntas = {
     Buena: {
@@ -54,9 +55,16 @@ const closePhoneModalBtn = document.getElementById('close-phone-modal-btn');
 // Variables para seguimiento
 let nivelSeleccionado = null;
 let itemSeleccionado = null;
+let timeoutId = null; // Control del timeout automático
 
 // Mostrar modal con contenido específico
 function mostrarModal(nivel) {
+    // Cancelar timeout anterior si existe
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+    }
+
     nivelSeleccionado = nivel;
     const { title, items } = preguntas[nivel];
 
@@ -69,13 +77,20 @@ function mostrarModal(nivel) {
     closeBtn.classList.remove('hidden');
     modal.classList.add('visible');
 
-    setTimeout(() => {
+    // Configurar nuevo timeout
+    timeoutId = setTimeout(() => {
         modal.classList.remove('visible');
-        enviarDatos()
+        enviarDatos();
     }, 50000);
 }
-// Enviar datos al webhook
+
+// Enviar datos al webhook (versión corregida)
 function enviarDatos(telefono = null) {
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+    }
+
     const data = {
         vendedor: vendedorSeleccionado,
         nivel: nivelSeleccionado,
@@ -88,26 +103,32 @@ function enviarDatos(telefono = null) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Datos enviados con éxito:', data);
-            mostrarAgradecimiento();
-        })
-        .catch(error => {
-            console.error('Error al enviar datos:', error);
-            mostrarAgradecimiento();
-        });
+    .then(response => {
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        return response.text(); // Cambiado a text() en lugar de json()
+    })
+    .then(text => {
+        console.log('Respuesta del servidor:', text);
+        mostrarAgradecimiento();
+    })
+    .catch(error => {
+        console.error('Error en la solicitud:', error);
+        mostrarAgradecimiento();
+    });
+
+    // Resetear variables
+    nivelSeleccionado = null;
+    itemSeleccionado = null;
 }
 
 // Mostrar mensaje de agradecimiento
 function mostrarAgradecimiento() {
-    modalTitle.textContent = '¡Gracias por tu feedback!'; // Mensaje de agradecimiento
-    modalItems.innerHTML = ''; // Limpiar los elementos del modal
-    sendBtn.classList.add('hidden'); // Ocultar el botón de enviar
+    modalTitle.textContent = '¡Gracias por tu feedback!';
+    modalItems.innerHTML = '';
+    sendBtn.classList.add('hidden');
     closeBtn.classList.add('hidden');
-    modal.classList.add('visible'); // Mostrar el modal
+    modal.classList.add('visible');
 
-    // Opcionalmente, puedes cerrar el modal después de un tiempo
     setTimeout(() => {
         modal.classList.remove('visible');
     }, 3000);
@@ -124,17 +145,13 @@ ratingButtons.forEach(button => {
 // Listener para cerrar el modal
 closeBtn.addEventListener('click', () => {
     modal.classList.remove('visible');
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+    }
 });
 
-// Listener para cerrar el modal del teléfono y enviar datos
-closePhoneModalBtn.addEventListener('click', () => {
-    const telefono = phoneInput.value.trim() || null; // Si no se proporciona, se establece como null
-    phoneModal.classList.remove('visible');
-    modal.classList.remove('visible'); // Cerrar el modal principal
-    enviarDatos(telefono); // Enviar datos, ya sea con el número de teléfono o sin él
-});
-
-// Listener para habilitar el botón de enviar al seleccionar un ítem
+// Listener para selección de ítem
 modalItems.addEventListener('change', event => {
     if (event.target.name === 'item') {
         itemSeleccionado = event.target.value;
@@ -142,29 +159,39 @@ modalItems.addEventListener('change', event => {
     }
 });
 
-// Listener para el botón de enviar
+// Listener para botón de enviar
 sendBtn.addEventListener('click', () => {
-    phoneModal.classList.add('visible'); // Mostrar el modal para ingresar el número de teléfono
+    phoneModal.classList.add('visible');
 });
 
-// Confirmar el número de teléfono y enviar datos al webhook
+// Confirmar número de teléfono
 confirmPhoneBtn.addEventListener('click', () => {
     const telefono = phoneInput.value.trim() || null;
-    enviarDatos(telefono); // Enviar datos con o sin número de teléfono
-    phoneModal.classList.remove('visible'); // Cerrar modal del teléfono
-    modal.classList.remove('visible'); // Cerrar el modal principal
+    phoneInput.value = ''; // Limpiar campo
+    phoneModal.classList.remove('visible');
+    modal.classList.remove('visible');
+    enviarDatos(telefono);
+});
+
+// Cerrar modal de teléfono
+closePhoneModalBtn.addEventListener('click', () => {
+    const telefono = phoneInput.value.trim() || null;
+    phoneInput.value = ''; // Limpiar campo
+    phoneModal.classList.remove('visible');
+    modal.classList.remove('visible');
+    enviarDatos(telefono);
 });
 
 /* Mantener la pantalla encendida */
 let wakeLock = null;
 
-    // Función para activar el Wake Lock
-    async function activarWakeLock() {
-      try {
+async function activarWakeLock() {
+    try {
         wakeLock = await navigator.wakeLock.request('screen');
         console.log('Wake Lock activado');
-      } catch (err) {
+    } catch (err) {
         console.error('Error al activar el Wake Lock:', err);
-      }
     }
+}
+
 activarWakeLock();
