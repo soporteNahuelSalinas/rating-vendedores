@@ -7,6 +7,8 @@
     --ColorBtn: #fff;
     --bgBtnCerrar: #f30e25;
     --bgBtnCerrarHover: #c9182a;
+    --bgItems-Modal: #6f0fbe;
+    --bgItems-Modal-Hover: #45024e;
     --modalAnchoMax: 400px;
     --fuenteFina: 300;
     --fuenteMedia: 600;
@@ -79,7 +81,17 @@ body {
         }
 
         #modal-items div{
-            margin-block: 4px;
+            margin-block: 12px;
+            background-color: var(--bgItems-Modal);
+            padding-block: 8px;
+            font-size: larger;
+            border-radius: 4px;
+        }
+
+        #modal-items div:hover{
+            background-color: var(--bgItems-Modal-Hover);
+            transition: var(--transitionTime);
+
         }
 
         #send-btn {
@@ -124,13 +136,13 @@ body {
             cursor: pointer;
         }
 
-        input[type="radio"] + label:hover{
+        /* input[type="radio"] + label:hover{
             background-color: var(--bgColor);
             margin-right: 5px;
             padding: 4px 4px 4px 4px;
             border-radius: 4px;
             transition: var(--transitionTime);
-        }
+        } */
 
 
 /* Phone Modal */
