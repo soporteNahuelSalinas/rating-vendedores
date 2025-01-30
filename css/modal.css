@@ -14,6 +14,8 @@
     --fuenteMedia: 600;
     --fuenteGruesa: 800;
     --transitionTime: 0.3s;
+    --BtnFontSize: 2.6vh;
+    --BtnPhoneWidth: 50vh;
 }
 
 body {
@@ -103,7 +105,7 @@ body {
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            font-size: 2vh;
+            font-size: var(--BtnFontSize);
         }
 
         #send-btn:hover {
@@ -118,7 +120,7 @@ body {
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            font-size: 2vh;
+            font-size: var(--BtnFontSize);
         }
 
         #close-btn:hover {
@@ -149,8 +151,7 @@ body {
 #phone-input{
     color: rgba(0, 0, 0, 0.897);
     padding-block: 6px;
-    padding-inline: 12px;
-    width: 28vh;
+    width: var(--BtnPhoneWidth);
     border-radius: 4px;
     border: none;
     margin: auto;
@@ -164,8 +165,8 @@ body {
 
     #confirm-phone-btn{
         background-color: var(--bgColorTarjeta);
-        width: 32vh;
-        font-size: 2vh;
+        width: var(--BtnPhoneWidth);
+        font-size: var(--BtnFontSize);
     }
 
         #confirm-phone-btn:hover{
@@ -173,8 +174,8 @@ body {
         }
     
     #close-phone-modal-btn{
-        width: 32vh;
-        font-size: 2vh;
+        width: var(--BtnPhoneWidth);
+        font-size: var(--BtnFontSize);
         background-color: var(--bgBtnCerrar);
     }
         #close-phone-modal-btn:hover{
