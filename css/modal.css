@@ -81,7 +81,7 @@ body {
         }
 
         #modal-items div{
-            margin-block: 12px;
+            margin-block: 16px;
             background-color: var(--bgItems-Modal);
             padding-block: 8px;
             font-size: larger;
@@ -102,7 +102,7 @@ body {
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 80%;
+            width: 100%;
             font-size: 2vh;
         }
 
@@ -117,7 +117,7 @@ body {
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 80%;
+            width: 100%;
             font-size: 2vh;
         }
 
