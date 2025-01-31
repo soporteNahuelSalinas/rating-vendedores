@@ -150,7 +150,7 @@ body {
 /* Phone Modal */
 #phone-input{
     color: rgba(0, 0, 0, 0.897);
-    padding-block: 6px;
+    padding-block: 12px;
     width: var(--BtnPhoneWidth);
     border-radius: 4px;
     border: none;
