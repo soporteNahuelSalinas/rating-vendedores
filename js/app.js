@@ -1,7 +1,7 @@
 // URL del webhook Make
 const webhookUrl = 'https://hook.us2.make.com/on9f0exvo1qz6qbg2f98h7c9nyt2x04n';
 // URL del webhook N8N
-// const webhookUrl = 'https://evolved-parrot-explicitly.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
+// const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
 // Preguntas para cada nivel de atención
 const preguntas = {
