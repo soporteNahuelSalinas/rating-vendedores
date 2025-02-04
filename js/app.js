@@ -1,7 +1,7 @@
 // URL del webhook Make
-const webhookUrl = 'https://hook.us2.make.com/on9f0exvo1qz6qbg2f98h7c9nyt2x04n';
+// const webhookUrl = 'https://hook.us2.make.com/on9f0exvo1qz6qbg2f98h7c9nyt2x04n';
 // URL del webhook N8N
-// const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
+const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
 // Preguntas para cada nivel de atención
 const preguntas = {
@@ -38,14 +38,17 @@ const preguntas = {
     }
 };
 
-// Obtener elementos
+// Obtener elementos del DOM
 const ratingButtons = document.querySelectorAll('.rating-btn');
 const modal = document.getElementById('modal');
 const modalTitle = document.getElementById('modal-title');
 const modalItems = document.getElementById('modal-items');
 const sendBtn = document.getElementById('send-btn');
 const closeBtn = document.getElementById('close-btn');
+
+// Recuperar datos almacenados en localStorage: vendedor y sucursal
 const vendedorSeleccionado = localStorage.getItem('vendedorSeleccionado') || 'Vendedor No Seleccionado';
+const sucursalSeleccionada = localStorage.getItem('sucursalSeleccionada') || 'Sucursal No Seleccionada';
 
 // Elementos para el modal del número de teléfono
 const phoneModal = document.getElementById('phone-modal');
@@ -58,7 +61,7 @@ let nivelSeleccionado = null;
 let itemSeleccionado = null;
 let timeoutId = null; // Control del timeout automático
 
-// Mostrar modal con contenido específico
+// Función para mostrar el modal con el contenido específico según el nivel
 function mostrarModal(nivel) {
     // Cancelar timeout anterior si existe
     if (timeoutId) {
@@ -69,31 +72,40 @@ function mostrarModal(nivel) {
     nivelSeleccionado = nivel;
     const { title, items } = preguntas[nivel];
 
-    // Configurar contenido del modal
+    // Configurar contenido del modal: título y opciones
     modalTitle.textContent = title;
     modalItems.innerHTML = items
-        .map((item, index) => `<div><input type="radio" id="item-${index}" name="item" value="${item}"><label for="item-${index}">${item}</label></div>`)
+        .map((item, index) =>
+            `<div>
+                <input type="radio" id="item-${index}" name="item" value="${item}">
+                <label for="item-${index}">${item}</label>
+            </div>`
+        )
         .join('');
+    
+    // Ocultar el botón de enviar hasta que se seleccione un ítem
     sendBtn.classList.add('hidden');
     closeBtn.classList.remove('hidden');
     modal.classList.add('visible');
 
-    // Configurar nuevo timeout
+    // Configurar timeout para envío automático después de 50 segundos
     timeoutId = setTimeout(() => {
         modal.classList.remove('visible');
         enviarDatos();
     }, 50000);
 }
 
-// Enviar datos al webhook (versión corregida)
+// Función para enviar los datos al webhook
 function enviarDatos(telefono = null) {
     if (timeoutId) {
         clearTimeout(timeoutId);
         timeoutId = null;
     }
 
+    // Se incluye la sucursal junto con los demás datos
     const data = {
         vendedor: vendedorSeleccionado,
+        sucursal: sucursalSeleccionada,
         nivel: nivelSeleccionado,
         aspecto: itemSeleccionado,
         telefono: telefono
@@ -106,7 +118,7 @@ function enviarDatos(telefono = null) {
     })
     .then(response => {
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        return response.text(); // Cambiado a text() en lugar de json()
+        return response.text();
     })
     .then(text => {
         console.log('Respuesta del servidor:', text);
@@ -117,12 +129,12 @@ function enviarDatos(telefono = null) {
         mostrarAgradecimiento();
     });
 
-    // Resetear variables
+    // Resetear variables de seguimiento
     nivelSeleccionado = null;
     itemSeleccionado = null;
 }
 
-// Mostrar mensaje de agradecimiento
+// Función para mostrar mensaje de agradecimiento
 function mostrarAgradecimiento() {
     modalTitle.textContent = '¡Gracias por tu feedback!';
     modalItems.innerHTML = '';
@@ -135,7 +147,7 @@ function mostrarAgradecimiento() {
     }, 3000);
 }
 
-// Listeners para botones de nivel de atención
+// Listener para cada botón de nivel de atención
 ratingButtons.forEach(button => {
     button.addEventListener('click', () => {
         const nivel = button.getAttribute('data-rating');
@@ -143,7 +155,7 @@ ratingButtons.forEach(button => {
     });
 });
 
-// Listener para cerrar el modal
+// Listener para cerrar el modal manualmente
 closeBtn.addEventListener('click', () => {
     modal.classList.remove('visible');
     if (timeoutId) {
@@ -152,7 +164,7 @@ closeBtn.addEventListener('click', () => {
     }
 });
 
-// Listener para selección de ítem
+// Listener para la selección de ítem en el modal
 modalItems.addEventListener('change', event => {
     if (event.target.name === 'item') {
         itemSeleccionado = event.target.value;
@@ -160,12 +172,12 @@ modalItems.addEventListener('change', event => {
     }
 });
 
-// Listener para botón de enviar
+// Listener para el botón de enviar: mostrar modal para ingresar el teléfono
 sendBtn.addEventListener('click', () => {
     phoneModal.classList.add('visible');
 });
 
-// Confirmar número de teléfono
+// Confirmar número de teléfono y enviar datos
 confirmPhoneBtn.addEventListener('click', () => {
     const telefono = phoneInput.value.trim() || null;
     phoneInput.value = ''; // Limpiar campo
@@ -174,7 +186,7 @@ confirmPhoneBtn.addEventListener('click', () => {
     enviarDatos(telefono);
 });
 
-// Cerrar modal de teléfono
+// Cerrar modal de teléfono y enviar datos sin confirmación adicional
 closePhoneModalBtn.addEventListener('click', () => {
     const telefono = phoneInput.value.trim() || null;
     phoneInput.value = ''; // Limpiar campo
