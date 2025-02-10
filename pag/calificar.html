@@ -44,19 +44,35 @@
     <div id="modal" class="modal hidden">
         <h2 id="modal-title"></h2>
         <div id="modal-items"></div>
-        <button id="send-btn" class="hidden button">Enviar</button>
+        <button id="send-btn" class="hidden button">Siguiente</button>
         <button id="close-btn" class="button">Cerrar</button>
     </div>
 
+    <!-- Modal para selección de categoría -->
+    <div id="brand-modal" class="modal hidden">
+        <h2>¿Qué compraste?</h2>
+        <div id="brand-items" class="modal-items"></div> <!-- Asegúrate de agregar la clase rating-grid aquí -->
+        <button id="brand-next-btn" class="button">Siguiente</button>
+        <button id="close-brand-btn" class="button">Cerrar</button>
+    </div>
+
+
+    <!-- Modal para fuente de conocimiento -->
+    <div id="source-modal" class="modal hidden">
+        <h2>¿Dónde viste este producto?</h2>
+        <div id="source-items" class="modal-items"></div>
+        <button id="source-next-btn" class="brand-button button">Siguiente</button>
+        <button id="close-source-btn" class="brand-button button">Cerrar</button>
+    </div>
+
+
     <!-- Modal para ingresar número de teléfono -->
     <div id="phone-modal" class="modal hidden">
-        <h2>Ingresa tu número de teléfono</h2>
-        <h2>(opcional)</h2>
+        <h2>Ingresa tu número de teléfono (opcional)</h2>
         <input type="tel" id="phone-input" maxlength="10" placeholder="Ej: 3765423453">
         <button id="confirm-phone-btn" class="button">Enviar</button>
         <button id="close-phone-modal-btn" class="button">Cerrar</button>
     </div>
-
 
     <!-- Script para manejar la lógica y el Fullscreen-->
     <script src="/js/app.js" defer></script>
