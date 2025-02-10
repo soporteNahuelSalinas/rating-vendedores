@@ -1,4 +1,4 @@
-:root{
+:root {
     --bgColor: #2831aa;
     --fontFamily: poppins;
     --bgColorTarjeta: #414bd8;
@@ -7,8 +7,8 @@
     --ColorBtn: #fff;
     --bgBtnCerrar: #f30e25;
     --bgBtnCerrarHover: #c9182a;
-    --bgItems-Modal: #6f0fbe;
-    --bgItems-Modal-Hover: #45024e;
+    --bgItemsModal: #6f0fbe;
+    --bgItemsModalHover: #45024e;
     --modalAnchoMax: 400px;
     --fuenteFina: 300;
     --fuenteMedia: 600;
@@ -24,138 +24,131 @@ body {
     color: var(--ColorBtn);
 }
 
-    .calificaciones .rating-btn {
-        color: var(--ColorBtn);
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.calificaciones .rating-btn {
+    color: var(--ColorBtn);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        .calificaciones .rating-btn:hover {
-            background-color: none;
-            transition: var(--transitionTime);
-        }
-        
-        .hidden {
-            display: none;
-        }
+.calificaciones .rating-btn:hover {
+    background-color: none;
+    transition: var(--transitionTime);
+}
 
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: grid;
-            justify-content: center;
-            align-content: center;
-            text-align: center;
-            align-items: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity var(--transitionTime) ease;
-            background-color: rgba(0, 0, 0, 0.897);
-        }
-        .modal.visible {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-content {
-            background-color: var(--bgColorTarjeta);
-            padding: 20px;
-            border-radius: 10px;
-            max-width: var(--modalAnchoMax);
-            text-align: center;
-        }
-        h2{
-            color: var(--ColorBtn);
-            width: var(--modalAnchoMax);
-            font-size: 3vh;
-            margin: auto;
-        }
-        .modal-content div {
-            margin: 10px 0;
-        }
+.hidden {
+    display: none;
+}
 
-        #modal-items{
-            font-size: 2vh;
-            margin-block: 4px;
-        }
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity var(--transitionTime) ease;
+    background-color: rgba(0, 0, 0, 0.897);
+}
 
-        #modal-items div{
-            margin-block: 16px;
-            background-color: var(--bgItems-Modal);
-            padding-block: 8px;
-            font-size: larger;
-            border-radius: 4px;
-        }
+.modal.visible {
+    visibility: visible;
+    opacity: 1;
+}
 
-        #modal-items div:hover{
-            background-color: var(--bgItems-Modal-Hover);
-            transition: var(--transitionTime);
+.modal-content {
+    background-color: var(--bgColorTarjeta);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: var(--modalAnchoMax);
+    text-align: center;
+}
 
-        }
+h2 {
+    color: var(--ColorBtn);
+    width: var(--modalAnchoMax);
+    font-size: 3vh;
+    margin: auto;
+}
 
-        #send-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: var(--bgColorBtn);
-            color: var(--ColorBtn);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: var(--BtnFontSize);
-        }
+.modal-content div {
+    margin: 10px 0;
+}
 
-        #send-btn:hover {
-            background-color: var(--bgColorBtnHover);
-        }
+#modal-items {
+    font-size: 2vh;
+    margin-block: 4px;
+}
 
-        #close-btn {
-            padding: 10px 20px;
-            background-color: var(--bgBtnCerrar);
-            color: var(--ColorBtn);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: var(--BtnFontSize);
-        }
+#modal-items div {
+    background-color: var(--bgItemsModal);
+    padding-block: 8px;
+    font-size: larger;
+    border-radius: 4px;
+    margin-top: 16px;
+}
 
-        #close-btn:hover {
-            background-color: var(--bgBtnCerrarHover);
-        }
+#modal-items div:hover {
+    background-color: var(--bgItemsModalHover);
+    transition: var(--transitionTime);
+}
 
+#send-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--bgColorBtn);
+    color: var(--ColorBtn);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: var(--BtnFontSize);
+}
 
-        input[type="radio"]{
-            display: none;
-        }
+#send-btn:hover {
+    background-color: var(--bgColorBtnHover);
+}
 
-        input[type="radio"] + label{
-            font-size: larger;
-            color: #ccc;
-            cursor: pointer;
-        }
+#close-btn {
+    padding: 10px 20px;
+    background-color: var(--bgBtnCerrar);
+    color: var(--ColorBtn);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: var(--BtnFontSize);
+}
 
-        /* input[type="radio"] + label:hover{
-            background-color: var(--bgColor);
-            margin-right: 5px;
-            padding: 4px 4px 4px 4px;
-            border-radius: 4px;
-            transition: var(--transitionTime);
-        } */
+#close-btn:hover {
+    background-color: var(--bgBtnCerrarHover);
+}
 
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"] + label {
+    font-size: larger;
+    color: #ccc;
+    cursor: pointer;
+}
 
 /* Phone Modal */
-#phone-input{
+#phone-input {
     color: rgba(0, 0, 0, 0.897);
-    padding-block: 12px;
+    padding-block: 16px;
     width: var(--BtnPhoneWidth);
     border-radius: 4px;
     border: none;
     margin: auto;
-    font-size: larger;
+    font-size: xx-large;
     text-align: center;
     letter-spacing: 1px;
     font-weight: var(--fuenteMedia);
@@ -163,21 +156,82 @@ body {
     margin-top: 12px;
 }
 
-    #confirm-phone-btn{
-        background-color: var(--bgColorTarjeta);
-        width: var(--BtnPhoneWidth);
-        font-size: var(--BtnFontSize);
+#confirm-phone-btn,
+#brand-next-btn,
+#source-next-btn {
+    background-color: var(--bgColorTarjeta);
+    width: var(--BtnPhoneWidth);
+    font-size: var(--BtnFontSize);
+}
+
+#confirm-phone-btn:hover {
+    background-color: var(--bgColor);
+}
+
+#close-phone-modal-btn,
+#close-brand-btn,
+#close-source-btn {
+    width: var(--BtnPhoneWidth);
+    font-size: var(--BtnFontSize);
+    background-color: var(--bgBtnCerrar);
+}
+
+#close-phone-modal-btn:hover {
+    background-color: var(--bgBtnCerrarHover);
+}
+
+#brand-items label {
+    font-size: xx-large;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#brand-items option {
+    background-color: #272bfd;
+}
+
+/* Estilos mejorados para el modal de fuentes */
+#source-modal select, #brand-items select {
+    width: var(--BtnPhoneWidth);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--bgColorTarjeta);
+    border: none;
+    font-size: xx-large;
+    margin-top: 10px;
+    color: var(--ColorBtn);
+}
+
+    #source-modal label{
+        font-size: xx-large;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
     }
 
-        #confirm-phone-btn:hover{
-            background-color: var(--bgColor);
-        }
-    
-    #close-phone-modal-btn{
-        width: var(--BtnPhoneWidth);
-        font-size: var(--BtnFontSize);
-        background-color: var(--bgBtnCerrar);
+    #source-modal h2, #brand-modal h2, #phone-modal h2 {
+        font-size: 3.5vh;
+        width: 100%;
+        margin-top: 10px;
     }
-        #close-phone-modal-btn:hover{
-            background-color: var(--bgBtnCerrarHover);
-        }
+
+/* Botones de los select */
+#source-next-btn, #close-source-btn{
+    color: var(--ColorBtn);
+    margin-top: 12px;
+    width: var(--BtnPhoneWidth);
+}
+
+    #source-next-btn:hover, #close-source-btn:hover{
+        transform:scale(.99);
+        transition: var(--transitionTime);
+    }
+    
+    #source-next-btn:hover{
+        background-color: var(--bgColorBtnHover);
+    }
+
+    #close-source-btn:hover{
+        background-color: var(--bgBtnCerrarHover);
+    }
