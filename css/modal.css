@@ -8,7 +8,7 @@
     --bgBtnCerrar: #f30e25;
     --bgBtnCerrarHover: #c9182a;
     --bgItemsModal: #6f0fbe;
-    --bgItemsModalHover: #45024e;
+    --bgItemsModalHover: #f1edf1;
     --modalAnchoMax: 400px;
     --fuenteFina: 300;
     --fuenteMedia: 600;
@@ -97,6 +97,12 @@ h2 {
 #modal-items div:hover {
     background-color: var(--bgItemsModalHover);
     transition: var(--transitionTime);
+}
+
+#modal-items div label:hover {
+    color: var(--bgItemsModal);
+    font-weight: var(--fuenteMedia);
+    filter: drop-shadow(0 0 1px --bgItemsModal);
 }
 
 #send-btn {

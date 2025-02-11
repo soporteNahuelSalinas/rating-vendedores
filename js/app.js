@@ -112,7 +112,7 @@ function iniciarInactividad() {
     cancelarInactividad();
     inactivityTimer = setTimeout(() => {
          cerrarModalesPorInactividad();
-    }, 12000);
+    }, 60000);
 }
 
 // Cancela el timer de inactividad
@@ -153,7 +153,7 @@ function mostrarBrandModal() {
     brandItems.innerHTML = `
         <label for="brand-select">Selecciona una categoría:</label>
         <select id="brand-select">
-            <option value="" disabled selected>Selecciona una categoría</option>
+            <option value="" disabled selected>Seleccioná</option>
             ${categorias.map(categoria => `<option value="${categoria}">${categoria}</option>`).join('')}
         </select>
     `;
