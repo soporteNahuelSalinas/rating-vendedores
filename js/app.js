@@ -48,6 +48,7 @@ const categorias = [
 ];
 
 const fuentes = [
+    'WhatsApp',
     'Facebook',
     'Instagram',
     'YouTube',
