@@ -69,6 +69,7 @@ const modalTitle = document.getElementById('modal-title');
 const modalItems = document.getElementById('modal-items');
 const sendBtn = document.getElementById('send-btn');
 const closeBtn = document.getElementById('close-btn');
+const header = document.querySelector('header');
 
 // Recuperar datos almacenados en localStorage: vendedor y sucursal
 const vendedorSeleccionado = localStorage.getItem('vendedorSeleccionado') || 'Vendedor No Seleccionado';
@@ -97,6 +98,16 @@ let itemSeleccionado = null;
 let marcaSeleccionada = null;
 let fuenteSeleccionada = null;
 let inactivityTimer = null; // Timer global para inactividad
+
+
+// Crear el mensaje con el vendedor seleccionado
+const mensajeCalificacion = `<h1>¡No olvides calificar a ${vendedorSeleccionado}!</h1>`;
+
+// Insertar el mensaje en el header
+if (header) {
+    header.innerHTML = mensajeCalificacion;
+}
+
 
 // Función que cierra los modales abiertos y envía los datos (forzado)
 function cerrarModalesPorInactividad() {
