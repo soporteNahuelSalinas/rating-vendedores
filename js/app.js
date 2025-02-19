@@ -40,7 +40,8 @@ const preguntas = {
 
 // Nuevas constantes para categorías y fuentes
 const categorias = [
-    'Productos de San Valentín',
+    'Liquidación Verano',
+    'Vuelta a Clases',
     'Productos de Ezviz',
     'Productos de Notebooks',
     'Productos de Ventilación',
