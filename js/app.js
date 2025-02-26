@@ -1,5 +1,5 @@
 // URL del webhook Make
-const webhookUrl = 'https://hook.us2.make.com/on9f0exvo1qz6qbg2f98h7c9nyt2x04n';
+const webhookUrl = 'https://hook.us2.make.com/xmayxoy1jlf2pjpvwf6b2wmio99w5wcf';
 // URL del webhook N8N
 // const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
