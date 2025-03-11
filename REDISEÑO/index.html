@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <title>Panel de Administración - ABM</title>
+  <style>
+    /* Estilos básicos para el panel de administración */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    header {
+      margin-bottom: 20px;
+    }
+    nav button {
+      margin-right: 10px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    nav button.active {
+      background-color: #0056b3;
+    }
+    section {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    form input {
+      padding: 8px;
+      margin-right: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    form button {
+      padding: 8px 12px;
+      border: none;
+      background-color: #28a745;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    ul li img {
+      vertical-align: middle;
+      margin-right: 10px;
+      width: 24px;
+      height: 24px;
+    }
+    ul li button {
+      margin-left: 5px;
+      padding: 5px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    ul li button.editar {
+      background-color: #ffc107;
+      color: #fff;
+    }
+    ul li button.eliminar {
+      background-color: #dc3545;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel de Administración</h1>
+    <nav>
+      <button id="tabSucursales" class="active">Sucursales</button>
+      <button id="tabVendedores">Vendedores</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Sección para Sucursales -->
+    <section id="sectionSucursales">
+      <h2>Gestión de Sucursales</h2>
+      <form id="formSucursal">
+        <input type="text" id="nombreSucursal" placeholder="Nombre de la sucursal" required>
+        <button type="submit">Agregar Sucursal</button>
+      </form>
+      <ul id="listaSucursales"></ul>
+    </section>
+
+    <!-- Sección para Vendedores -->
+    <section id="sectionVendedores" style="display: none;">
+      <h2>Gestión de Vendedores</h2>
+      <form id="formVendedor">
+        <input type="text" id="nombreVendedor" placeholder="Nombre del vendedor" required>
+        <input type="text" id="iconoVendedor" placeholder="URL del icono" required>
+        <button type="submit">Agregar Vendedor</button>
+      </form>
+      <ul id="listaVendedores"></ul>
+    </section>
+  </main>
+
+  <script>
+    // Alternar entre pestañas de sucursales y vendedores
+    document.getElementById('tabSucursales').addEventListener('click', () => {
+      document.getElementById('sectionSucursales').style.display = 'block';
+      document.getElementById('sectionVendedores').style.display = 'none';
+      document.getElementById('tabSucursales').classList.add('active');
+      document.getElementById('tabVendedores').classList.remove('active');
+    });
+    document.getElementById('tabVendedores').addEventListener('click', () => {
+      document.getElementById('sectionSucursales').style.display = 'none';
+      document.getElementById('sectionVendedores').style.display = 'block';
+      document.getElementById('tabSucursales').classList.remove('active');
+      document.getElementById('tabVendedores').classList.add('active');
+    });
+
+    // ABM para Sucursales
+    const formSucursal = document.getElementById('formSucursal');
+    const nombreSucursalInput = document.getElementById('nombreSucursal');
+    const listaSucursales = document.getElementById('listaSucursales');
+
+    function cargarSucursales() {
+      let sucursales = JSON.parse(localStorage.getItem('sucursales')) || [];
+      listaSucursales.innerHTML = '';
+      sucursales.forEach((sucursal, index) => {
+        const li = document.createElement('li');
+        li.textContent = sucursal;
+        // Botón Editar
+        const btnEditar = document.createElement('button');
+        btnEditar.textContent = 'Editar';
+        btnEditar.classList.add('editar');
+        btnEditar.addEventListener('click', () => {
+          const nuevoNombre = prompt('Editar sucursal:', sucursal);
+          if (nuevoNombre && nuevoNombre.trim() !== '') {
+            sucursales[index] = nuevoNombre.trim();
+            localStorage.setItem('sucursales', JSON.stringify(sucursales));
+            cargarSucursales();
+          }
+        });
+        // Botón Eliminar
+        const btnEliminar = document.createElement('button');
+        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.classList.add('eliminar');
+        btnEliminar.addEventListener('click', () => {
+          if (confirm('¿Seguro que deseas eliminar esta sucursal?')) {
+            sucursales.splice(index, 1);
+            localStorage.setItem('sucursales', JSON.stringify(sucursales));
+            cargarSucursales();
+          }
+        });
+        li.appendChild(btnEditar);
+        li.appendChild(btnEliminar);
+        listaSucursales.appendChild(li);
+      });
+    }
+
+    formSucursal.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const sucursal = nombreSucursalInput.value.trim();
+      if (sucursal !== '') {
+        let sucursales = JSON.parse(localStorage.getItem('sucursales')) || [];
+        sucursales.push(sucursal);
+        localStorage.setItem('sucursales', JSON.stringify(sucursales));
+        nombreSucursalInput.value = '';
+        cargarSucursales();
+      }
+    });
+    cargarSucursales();
+
+    // ABM para Vendedores
+    const formVendedor = document.getElementById('formVendedor');
+    const nombreVendedorInput = document.getElementById('nombreVendedor');
+    const iconoVendedorInput = document.getElementById('iconoVendedor');
+    const listaVendedores = document.getElementById('listaVendedores');
+
+    function cargarVendedores() {
+      let vendedores = JSON.parse(localStorage.getItem('vendedores')) || [];
+      listaVendedores.innerHTML = '';
+      vendedores.forEach((vendedor, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<img src="${vendedor.icono}" alt="${vendedor.nombre}"> ${vendedor.nombre}`;
+        // Botón Editar
+        const btnEditar = document.createElement('button');
+        btnEditar.textContent = 'Editar';
+        btnEditar.classList.add('editar');
+        btnEditar.addEventListener('click', () => {
+          const nuevoNombre = prompt('Editar vendedor:', vendedor.nombre);
+          const nuevoIcono = prompt('Editar URL del icono:', vendedor.icono);
+          if (nuevoNombre && nuevoIcono && nuevoNombre.trim() !== '' && nuevoIcono.trim() !== '') {
+            vendedores[index] = { nombre: nuevoNombre.trim(), icono: nuevoIcono.trim() };
+            localStorage.setItem('vendedores', JSON.stringify(vendedores));
+            cargarVendedores();
+          }
+        });
+        // Botón Eliminar
+        const btnEliminar = document.createElement('button');
+        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.classList.add('eliminar');
+        btnEliminar.addEventListener('click', () => {
+          if (confirm('¿Seguro que deseas eliminar este vendedor?')) {
+            vendedores.splice(index, 1);
+            localStorage.setItem('vendedores', JSON.stringify(vendedores));
+            cargarVendedores();
+          }
+        });
+        li.appendChild(btnEditar);
+        li.appendChild(btnEliminar);
+        listaVendedores.appendChild(li);
+      });
+    }
+
+    formVendedor.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nombre = nombreVendedorInput.value.trim();
+      const icono = iconoVendedorInput.value.trim();
+      if (nombre !== '' && icono !== '') {
+        let vendedores = JSON.parse(localStorage.getItem('vendedores')) || [];
+        vendedores.push({ nombre, icono });
+        localStorage.setItem('vendedores', JSON.stringify(vendedores));
+        nombreVendedorInput.value = '';
+        iconoVendedorInput.value = '';
+        cargarVendedores();
+      }
+    });
+    cargarVendedores();
+  </script>
+</body>
+</html>

@@ -101,7 +101,6 @@ let marcaSeleccionada = null;
 let fuenteSeleccionada = null;
 let inactivityTimer = null; // Timer global para inactividad
 
-
 // Crear el mensaje con el vendedor seleccionado
 const mensajeCalificacion = `<h1>¡No olvides calificar a ${vendedorSeleccionado}!</h1>`;
 
@@ -109,7 +108,6 @@ const mensajeCalificacion = `<h1>¡No olvides calificar a ${vendedorSeleccionado
 if (header) {
     header.innerHTML = mensajeCalificacion;
 }
-
 
 // Función que cierra los modales abiertos y envía los datos (forzado)
 function cerrarModalesPorInactividad() {
@@ -137,7 +135,7 @@ function cancelarInactividad() {
     }
 }
 
-// Muestra el modal según el nivel seleccionado
+// Muestra el modal según el nivel seleccionado (se usa para Buena y Normal)
 function mostrarModal(nivel) {
     cancelarInactividad();
 
@@ -211,7 +209,7 @@ function mostrarPhoneModal() {
 // Envía los datos al webhook; si "force" es true se omite la validación
 function enviarDatos(telefono = null, force = false) {
     cancelarInactividad();
-    if (!force && (!marcaSeleccionada || !fuenteSeleccionada)) {
+    if (!force && nivelSeleccionado !== 'Mala' && (!marcaSeleccionada || !fuenteSeleccionada)) {
         alert('Por favor selecciona una categoría y una fuente antes de continuar.');
         return;
     }
@@ -265,7 +263,6 @@ function resetearDatos() {
     marcaSeleccionada = null;
     fuenteSeleccionada = null;
     phoneInput.value = '';
-
 }
 
 // ====================
@@ -277,7 +274,14 @@ ratingButtons.forEach(button => {
     button.addEventListener('click', () => {
         cancelarInactividad();
         const nivel = button.getAttribute('data-rating');
-        mostrarModal(nivel);
+        // Si la calificación es "Mala", se salta el modal de preguntas y se pide el teléfono directamente.
+        if (nivel === 'Mala') {
+            nivelSeleccionado = nivel;
+            mostrarPhoneModal();
+            
+        } else {
+            mostrarModal(nivel);
+        }
     });
 });
 
@@ -298,11 +302,16 @@ modalItems.addEventListener('change', event => {
     }
 });
 
-// Botón para enviar (pasar al modal de categorías)
+// Botón para enviar (pasa al siguiente modal, según la calificación)
 sendBtn.addEventListener('click', () => {
     cancelarInactividad();
     modal.classList.remove('visible');
-    mostrarBrandModal();
+    // Si la calificación es "Mala", se salta la selección de marca y fuente y va directamente al teléfono.
+    if (nivelSeleccionado === 'Mala') {
+        mostrarPhoneModal();
+    } else {
+        mostrarBrandModal();
+    }
 });
 
 // Siguiente en modal de marcas
