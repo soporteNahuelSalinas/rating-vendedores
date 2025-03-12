@@ -169,12 +169,19 @@ function mostrarBrandModal() {
             ${categorias.map(categoria => `<option value="${categoria}">${categoria}</option>`).join('')}
         </select>
     `;
+    // Oculta el botón "Siguiente" del modal de marcas
+    if (brandNextBtn) {
+        brandNextBtn.style.display = 'none';
+    }
     brandModal.classList.add('visible');
 
     document.getElementById('brand-select').addEventListener('change', function () {
-        marcaSeleccionada = this.value;
-        cancelarInactividad();
-        iniciarInactividad();
+        if (this.value) {
+            marcaSeleccionada = this.value;
+            cancelarInactividad();
+            brandModal.classList.remove('visible');
+            mostrarSourceModal();
+        }
     });
     iniciarInactividad();
 }
@@ -188,12 +195,19 @@ function mostrarSourceModal() {
             ${fuentes.map(fuente => `<option value="${fuente}">${fuente}</option>`).join('')}
         </select>
     `;
+    // Oculta el botón "Siguiente" del modal de fuentes
+    if (sourceNextBtn) {
+        sourceNextBtn.style.display = 'none';
+    }
     sourceModal.classList.add('visible');
 
     document.getElementById('source-select').addEventListener('change', function () {
-        fuenteSeleccionada = this.value;
-        cancelarInactividad();
-        iniciarInactividad();
+        if (this.value) {
+            fuenteSeleccionada = this.value;
+            cancelarInactividad();
+            sourceModal.classList.remove('visible');
+            mostrarPhoneModal();
+        }
     });
     iniciarInactividad();
 }
@@ -278,7 +292,6 @@ ratingButtons.forEach(button => {
         if (nivel === 'Mala') {
             nivelSeleccionado = nivel;
             mostrarPhoneModal();
-            
         } else {
             mostrarModal(nivel);
         }
@@ -292,17 +305,17 @@ closeBtn.addEventListener('click', () => {
     enviarDatos(null, true);
 });
 
-// Selección de ítem en el modal de nivel
+// Al seleccionar un ítem en el modal de nivel, se salta automáticamente al modal de categoría
 modalItems.addEventListener('change', event => {
     cancelarInactividad();
     if (event.target.name === 'item') {
         itemSeleccionado = event.target.value;
-        sendBtn.classList.remove('hidden');
-        iniciarInactividad();
+        modal.classList.remove('visible');
+        mostrarBrandModal();
     }
 });
 
-// Botón para enviar (pasa al siguiente modal, según la calificación)
+// (Se mantiene el listener del btn de enviar como respaldo, aunque ya no es necesario)
 sendBtn.addEventListener('click', () => {
     cancelarInactividad();
     modal.classList.remove('visible');
@@ -314,7 +327,7 @@ sendBtn.addEventListener('click', () => {
     }
 });
 
-// Siguiente en modal de marcas
+// Siguiente en modal de marcas (listener mantenido como respaldo)
 brandNextBtn.addEventListener('click', () => {
     cancelarInactividad();
     const selectedBrand = document.getElementById('brand-select');
@@ -335,7 +348,7 @@ closeBrandBtn.addEventListener('click', () => {
     enviarDatos(null, true);
 });
 
-// Siguiente en modal de fuentes
+// Siguiente en modal de fuentes (listener mantenido como respaldo)
 sourceNextBtn.addEventListener('click', () => {
     cancelarInactividad();
     const selectedSource = document.getElementById('source-select');
