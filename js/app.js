@@ -1,7 +1,7 @@
 // URL del webhook Make
 // const webhookUrl = 'https://hook.us2.make.com/xmayxoy1jlf2pjpvwf6b2wmio99w5wcf';
 // URL del webhook N8N
-// const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
+const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
 // Preguntas para cada nivel de atención
 const preguntas = {
@@ -99,6 +99,8 @@ let itemSeleccionado = null;
 let marcaSeleccionada = null;
 let fuenteSeleccionada = null;
 let inactivityTimer = null; // Timer global para inactividad
+// Variable para almacenar el teléfono ingresado (para opción "Mala")
+let telefonoIngresado = null;
 
 // Crear el mensaje con el vendedor seleccionado
 const mensajeCalificacion = `<h1>¡No olvides calificar a ${vendedorSeleccionado}!</h1>`;
@@ -134,7 +136,7 @@ function cancelarInactividad() {
     }
 }
 
-// Muestra el modal según el nivel seleccionado (se usa para Buena y Normal)
+// Muestra el modal según el nivel seleccionado (se usa para Buena, Normal y para "Mala" luego del teléfono)
 function mostrarModal(nivel) {
     cancelarInactividad();
 
@@ -276,6 +278,7 @@ function resetearDatos() {
     itemSeleccionado = null;
     marcaSeleccionada = null;
     fuenteSeleccionada = null;
+    telefonoIngresado = null;
     phoneInput.value = '';
 }
 
@@ -305,13 +308,19 @@ closeBtn.addEventListener('click', () => {
     enviarDatos(null, true);
 });
 
-// Al seleccionar un ítem en el modal de nivel, se salta automáticamente al modal de categoría
+// Al seleccionar un ítem en el modal de nivel, se salta automáticamente a la siguiente etapa
 modalItems.addEventListener('change', event => {
     cancelarInactividad();
     if (event.target.name === 'item') {
         itemSeleccionado = event.target.value;
         modal.classList.remove('visible');
-        mostrarBrandModal();
+        // Para "Mala" se envían los datos directamente usando el teléfono guardado,
+        // mientras que en otros niveles se continúa al modal de categoría.
+        if (nivelSeleccionado === 'Mala') {
+            enviarDatos(telefonoIngresado);
+        } else {
+            mostrarBrandModal();
+        }
     }
 });
 
@@ -369,22 +378,34 @@ closeSourceBtn.addEventListener('click', () => {
     enviarDatos(null, true);
 });
 
-// Confirmación del teléfono y envío de datos
+// Confirmación del teléfono y envío de datos o despliegue del modal de preguntas para "Mala"
 confirmPhoneBtn.addEventListener('click', () => {
     cancelarInactividad();
     const telefono = phoneInput.value.trim() || null;
+    // Guardar el teléfono ingresado para opción "Mala"
+    telefonoIngresado = telefono;
     phoneInput.value = ''; // Limpiar campo
     phoneModal.classList.remove('visible');
-    enviarDatos(telefono);
+    if (nivelSeleccionado === 'Mala') {
+         mostrarModal('Mala');
+    } else {
+         enviarDatos(telefono);
+    }
 });
 
-// Cierre manual del modal de teléfono y envío de datos sin confirmar
+// Cierre manual del modal de teléfono y envío de datos sin confirmar o despliegue del modal de preguntas para "Mala"
 closePhoneModalBtn.addEventListener('click', () => {
     cancelarInactividad();
     const telefono = phoneInput.value.trim() || null;
+    // Guardar el teléfono ingresado para opción "Mala"
+    telefonoIngresado = telefono;
     phoneInput.value = ''; // Limpiar campo
     phoneModal.classList.remove('visible');
-    enviarDatos(telefono);
+    if (nivelSeleccionado === 'Mala') {
+         mostrarModal('Mala');
+    } else {
+         enviarDatos(telefono);
+    }
 });
 
 /* Mantener la pantalla encendida */
