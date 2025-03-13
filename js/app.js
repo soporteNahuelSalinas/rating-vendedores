@@ -54,7 +54,7 @@ const fuentes = [
     'Tienda En Línea de Anyway',
     'Sucursal Física',
     'Redes Sociales [Facebook, Instagram]',
-    'Medio Digitales [Google, YouTube]', 
+    'Medios Digitales [Google, YouTube]', 
     'WhatsApp [Estados, Mensajes]',
     'Auto Parlante',
     'Carteles y Pasacalles',
