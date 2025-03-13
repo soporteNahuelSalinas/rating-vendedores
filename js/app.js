@@ -10,10 +10,10 @@ const preguntas = {
         items: [
             '🔋Rapidez en la atención',
             '🙋Disposición a la atención',
-            '🧠Conocimiento técnico',
+            // '🧠Conocimiento técnico',
             '💯Capacidad de resolución',
             '🤝Amabilidad, empatía',
-            '⚙️Asesoramiento técnico'
+            '⚙️Asesoramiento/Conocimiento técnico'
         ]
     },
     Normal: {
@@ -23,7 +23,8 @@ const preguntas = {
             '🧠Conocimientos del producto',
             '💰Conocer las financiaciones',
             '✋Mayor predisposición',
-            '🤝Amabilidad y empatía'
+            '🤝Amabilidad y empatía',
+            '😐No veo oportunidad de mejora'
         ]
     },
     Mala: {
@@ -49,18 +50,16 @@ const categorias = [
 ];
 
 const fuentes = [
-    'Radio',
-    'WhatsApp',
-    'Facebook',
-    'Instagram',
-    'YouTube',
-    'Google (búsquedas o anuncios)',
-    'Carteles o Banners en la ciudad',
-    'Auto Parlante',
-    'Correo Electrónico',
-    'Tienda Online', 
-    'Sucursal Física',
     'Recomendación del vendedor',
+    'Tienda En Línea de Anyway',
+    'Sucursal Física',
+    'Redes Sociales [Facebook, Instagram]',
+    'Medio Digitales [Google, YouTube]', 
+    'WhatsApp [Estados, Mensajes]',
+    'Auto Parlante',
+    'Carteles y Pasacalles',
+    'Correo Electrónico',
+    'Radio',    
     'Otro'
 ];
 
@@ -217,6 +216,7 @@ function mostrarPhoneModal() {
     cancelarInactividad();
     phoneInput.value = ''; // Limpiar campo
     phoneModal.classList.add('visible');
+    closePhoneModalBtn.style.display = 'none';
     iniciarInactividad();
 }
 
