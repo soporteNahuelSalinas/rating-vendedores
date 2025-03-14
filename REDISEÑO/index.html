@@ -6,127 +6,6 @@
   <title>Panel de Administración - ABM</title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/admin.css">
-  <style>
-    /* Estilos generales */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f5f5f5;
-    }
-    /* Estilos para el contenedor de login (pantalla completa) */
-    #login-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(245,245,245,0.95);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    #login-container form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    #login-container input {
-      padding: 8px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    #login-container button {
-      padding: 10px 15px;
-      border: none;
-      background-color: #007BFF;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-      width: 100%;
-      margin-top: 10px;
-    }
-    #error-message {
-      color: red;
-      margin-top: 10px;
-      text-align: center;
-    }
-    /* Estilos del panel de administración */
-    header {
-      margin-bottom: 20px;
-    }
-    nav button {
-      margin-right: 10px;
-      padding: 10px 15px;
-      border: none;
-      background-color: #007BFF;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    nav button.active {
-      background-color: #0056b3;
-    }
-    section {
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 4px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    form input {
-      padding: 8px;
-      margin-right: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    form button {
-      padding: 8px 12px;
-      border: none;
-      background-color: #28a745;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    ul li {
-      padding: 8px;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    ul li img {
-      vertical-align: middle;
-      margin-right: 10px;
-      width: 24px;
-      height: 24px;
-    }
-    ul li button {
-      margin-left: 5px;
-      padding: 5px 8px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    ul li button.editar {
-      background-color: #ffc107;
-      color: #fff;
-    }
-    ul li button.eliminar {
-      background-color: #dc3545;
-      color: #fff;
-    }
-  </style>
 </head>
 <body>
   <!-- Formulario de Login -->
@@ -166,75 +45,18 @@
         <h2>Gestión de Vendedores</h2>
         <form id="formVendedor">
           <input type="text" id="nombreVendedor" placeholder="Nombre del vendedor" required>
-          <input type="text" id="iconoVendedor" placeholder="URL del icono" required>
+          <!-- <input type="text" id="iconoVendedor" placeholder="URL del icono" required> -->
           <button type="submit">Agregar Vendedor</button>
         </form>
         <ul id="listaVendedores"></ul>
       </section>
     </main>
   </div>
-
-  <script>
-    // Variables globales para el control de login
-    let intentos = 0;
-    const maxIntentos = 5;
-    const esperaMs = 30000; // 30 segundos
-  
-    const loginForm = document.getElementById('loginForm');
-    const loginButton = document.getElementById('loginButton');
-    const errorMessage = document.getElementById('error-message');
-  
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-  
-      // Si se superó el máximo de intentos, no se permite enviar
-      if (intentos >= maxIntentos) return;
-  
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-  
-      // URL del webhook
-      const baseUrl = "https://stingray-poetic-likely.ngrok-free.app/webhook-test/fd298640-e9d9-4c7a-acc8-0aec7c865520";
-  
-      // Realiza la petición POST al webhook con los datos en el body
-      fetch(baseUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ usuario: email, pass: password })
-      })
-      .then(response => {
-        if (response.status === 200) {
-          // Login exitoso: Ocultar login y mostrar la app
-          document.getElementById('login-container').style.display = "none";
-          document.getElementById('app').style.display = "block";
-        } else {
-          // Login incorrecto: Aumentar contador y notificar
-          intentos++;
-          errorMessage.textContent = `Credenciales incorrectas. Intento ${intentos} de ${maxIntentos}.`;
-          manejarIntentos();
-        }
-      })
-      .catch(error => {
-        // En caso de error en la conexión, se trata igual que un intento fallido
-        intentos++;
-        errorMessage.textContent = `Error en la conexión. Intento ${intentos} de ${maxIntentos}.`;
-        manejarIntentos();
-      });
-    });
-  
-    function manejarIntentos() {
-      if (intentos >= maxIntentos) {
-        loginButton.disabled = true;
-        errorMessage.textContent = `Número máximo de intentos alcanzado. Espera 30 segundos.`;
-        setTimeout(() => {
-          intentos = 0;
-          loginButton.disabled = false;
-          errorMessage.textContent = "";
-        }, esperaMs);
-      }
-    }
-  </script>  
+  <script src="js/auth.js"></script>
+  <script src="js/branches.js"></script>
+  <script src="js/create-branches.js"></script>
+  <script src="js/vendors.js"></script>
+  <script src="js/create-vendors.js"></script>
+  <script src="js/tabs.js"></script>
 </body>
 </html>
