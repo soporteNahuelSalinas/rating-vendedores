@@ -8,17 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
     tabVendedores.addEventListener('click', () => {
       tabVendedores.classList.add('active');
       tabSucursales.classList.remove('active');
+      tabEncuestas.classList.remove('active');
   
       sectionVendedores.style.display = 'block';
       sectionSucursales.style.display = 'none';
+      sectionEncuestas.style.display = 'none';
     });
   
     // Listener para la pestaña de Sucursales
     tabSucursales.addEventListener('click', () => {
       tabSucursales.classList.add('active');
       tabVendedores.classList.remove('active');
+      tabEncuestas.classList.remove('active');
   
       sectionSucursales.style.display = 'block';
       sectionVendedores.style.display = 'none';
+      sectionEncuestas.style.display = 'none';
     });
   });  
