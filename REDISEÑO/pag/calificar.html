@@ -1,99 +1,53 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts: Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="shortcut icon" href="https://tienda.anywayinsumos.com.ar/img/producto-1742-logo-1721508805.jpg" type="image/x-icon">
-  <title>Calificar Vendedor</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-900 text-gray-100">
-  <button class="logotipo p-2">
-    <img id="logotipo" src="https://tienda.anywayinsumos.com.ar/img/producto-1742-logo-1721508805.jpg" alt="anyway-logo" class="w-12 h-12">
-  </button>
-  <header class="text-center my-4">
-    <h1 class="text-2xl font-bold">¡No olvides calificar a !</h1>
-  </header>
-  <main class="max-w-2xl mx-auto p-4">
-    <div class="vendedor-info text-center text-lg font-medium mb-6" id="vendedor-display"></div>
+<body class="bg-gray-100 p-6">
 
-    <!-- Opciones de calificación -->
-    <div class="calificaciones flex justify-around mb-6">
-      <button class="rating-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded" data-rating="Mala">
-        <img src="https://cdn-icons-png.flaticon.com/512/743/743418.png" alt="Mala" class="w-10 h-10 mx-auto mb-1">
-        <p>Mala</p>
-      </button>
-      <button class="rating-btn bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded" data-rating="Normal">
-        <img src="https://cdn-icons-png.flaticon.com/512/743/743321.png" alt="Normal" class="w-10 h-10 mx-auto mb-1">
-        <p>Normal</p>
-      </button>
-      <button class="rating-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded" data-rating="Buena">
-        <img src="https://cdn-icons-png.flaticon.com/512/743/743338.png" alt="Buena" class="w-10 h-10 mx-auto mb-1">
-        <p>Buena</p>
-      </button>
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-semibold mb-4">Bienvenido</h1>
+
+        <!-- Sección para ingresar el nombre del usuario -->
+        <div id="userInputSection">
+            <label for="userName" class="block text-gray-700">Ingresa el Email de tu administrador:</label>
+            <input type="text" id="userName" class="mt-2 p-2 border border-gray-300 rounded w-full" placeholder="Ingresa tu nombre" required>
+            <button id="submitUser" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Enviar</button>
+        </div>
+
+        <!-- Sección para seleccionar el vendedor -->
+        <div id="vendorSelectionSection" class="hidden mt-6">
+            <label for="vendorSelect" class="block text-gray-700">Selecciona un Vendedor:</label>
+            <select id="vendorSelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
+                <option value="">Seleccione un vendedor</option>
+            </select>
+            <button id="submitVendor" class="mt-4 bg-green-500 text-white py-2 px-4 rounded">Seleccionar Vendedor</button>
+        </div>
+
+        <!-- Sección para seleccionar la sucursal -->
+        <div id="branchSelectionSection" class="hidden mt-6">
+            <label for="branchSelect" class="block text-gray-700">Selecciona una Sucursal:</label>
+            <select id="branchSelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
+                <option value="">Seleccione una sucursal</option>
+            </select>
+            <button id="submitBranch" class="mt-4 bg-yellow-500 text-white py-2 px-4 rounded">Seleccionar Sucursal</button>
+        </div>
+
+        <!-- Sección para seleccionar la encuesta -->
+        <div id="surveySelectionSection" class="hidden mt-6">
+          <label for="surveySelect" class="block text-gray-700">Selecciona una Encuesta:</label>
+          <select id="surveySelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
+              <option value="">Seleccione una encuesta</option>
+          </select>
+          <button id="submitSurvey" class="mt-4 bg-purple-500 text-white py-2 px-4 rounded">Calificar</button>
+        </div>
+
+        <div id="messageArea" class="mt-4 text-center text-red-500"></div>
     </div>
 
-    <!-- Botón para ampliar pantalla -->
-    <button id="fullscreen-btn" class="block mx-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Ampliar</button>
-  </main>
-
-  <!-- Modal para mostrar la calificación -->
-  <div id="modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-gray-800 rounded p-6 w-11/12 max-w-lg">
-      <h2 id="modal-title" class="text-xl font-bold mb-4"></h2>
-      <div id="modal-items" class="mb-4"></div>
-      <div class="flex justify-end gap-4">
-        <button id="send-btn" class="hidden bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Siguiente</button>
-        <button id="close-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal para selección de categoría -->
-  <div id="brand-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-gray-800 rounded p-6 w-11/12 max-w-lg">
-      <h2 class="text-xl font-bold mb-4">¿Qué compraste?</h2>
-      <div id="brand-items" class="modal-items mb-4"></div>
-      <div class="flex justify-end gap-4">
-        <button id="brand-next-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Siguiente</button>
-        <button id="close-brand-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal para fuente de conocimiento -->
-  <div id="source-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-gray-800 rounded p-6 w-11/12 max-w-lg">
-      <h2 class="text-xl font-bold mb-4">¿Dónde viste este producto?</h2>
-      <div id="source-items" class="modal-items mb-4"></div>
-      <div class="flex justify-end gap-4">
-        <button id="source-next-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Siguiente</button>
-        <button id="close-source-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal para ingresar número de teléfono -->
-  <div id="phone-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-gray-800 rounded p-6 w-11/12 max-w-lg">
-      <h2 class="text-xl font-bold mb-4">Ingresa tu número de teléfono (opcional)</h2>
-      <input type="tel" id="phone-input" maxlength="10" placeholder="Ej: 3765423453" class="w-full p-2 border border-gray-600 rounded mb-4 bg-gray-700 text-gray-100">
-      <div class="flex justify-end gap-4">
-        <button id="confirm-phone-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Enviar</button>
-        <button id="close-phone-modal-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="/js/app.js" defer></script>
-  <script src="/js/fullscreen.js" defer></script>
+    <script src="/js/user-get-vendors.js"></script>
 </body>
 </html>

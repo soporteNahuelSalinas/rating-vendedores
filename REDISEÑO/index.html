@@ -6,6 +6,8 @@
   <title>Panel de Administración - ABM</title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/encuestas.css">
+
 </head>
 <body>
   <!-- Formulario de Login -->
@@ -26,6 +28,7 @@
       <nav>
         <button id="tabSucursales" class="active">Sucursales</button>
         <button id="tabVendedores">Vendedores</button>
+        <button id="tabEncuestas">Encuestas</button>
       </nav>
     </header>
 
@@ -50,14 +53,56 @@
         </form>
         <ul id="listaVendedores"></ul>
       </section>
+
+      <!-- Sección para Encuestas -->
+      <section id="sectionEncuestas" style="display: none;">
+        <h2>Gestión de Encuestas</h2>
+        <form id="formEncuesta">
+        <div id="messageArea" style="margin: 10px 0; font-size: 16px;"></div>
+          <label>
+            Título de la Encuesta: <br>
+            <input type="text" id="tituloEncuesta" placeholder="Ingresar nombre/título" required>
+          </label>
+          <br><br>
+          <fieldset>
+            <legend>Preguntas por Nivel de Atención</legend>
+            <div id="preguntasContainer">
+              <!-- Aquí se agregarán dinámicamente los bloques de pregunta -->
+            </div>
+            <button type="button" id="agregarNivel">Agregar Nivel de Atención</button>
+          </fieldset>
+          <br>
+          <fieldset>
+            <legend>Categorías</legend>
+            <ul id="listaCategorias"></ul>
+            <input type="text" id="nuevaCategoria" placeholder="Nueva categoría">
+            <button type="button" id="agregarCategoria">Agregar Categoría</button>
+          </fieldset>
+          <br>
+          <fieldset>
+            <legend>Fuentes</legend>
+            <ul id="listaFuentes"></ul>
+            <input type="text" id="nuevaFuente" placeholder="Nueva fuente">
+            <button type="button" id="agregarFuente">Agregar Fuente</button>
+          </fieldset>
+          <br>
+          <button type="submit">Guardar Encuesta</button>
+        </form>
+        <div id="messageArea" style="margin: 10px 0; font-size: 16px;"></div>
+      </section>
     </main>
   </div>
   <script src="js/auth.js"></script>
+  <!-- Sucursales -->
   <script src="js/branches.js"></script>
   <script src="js/create-branches.js"></script>
+  <!-- Vendedores -->
   <script src="js/vendors.js"></script>
   <script src="js/create-vendors.js"></script>
-  <script src="js/tabs.js"></script>
+  <!-- Formularios -->
   <script src="js/surveys.js"></script>
+  <script src="js/get-surveys.js"></script>
+  <!-- Manejo de pestañas -->
+  <script src="js/tabs.js"></script>
 </body>
 </html>
