@@ -1,53 +1,105 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calificar</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Calificar Encuesta</title>
+
+    <!-- Links de estilos -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/calificar.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
-<body class="bg-gray-100 p-6">
+<body>
+    <header><h1>¡No olvides calificar a Oscar!</h1></header>
+    <main>
 
-    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-semibold mb-4">Bienvenido</h1>
+        <div class="vendedor-info" id="vendedor-display"></div>
 
-        <!-- Sección para ingresar el nombre del usuario -->
-        <div id="userInputSection">
-            <label for="userName" class="block text-gray-700">Ingresa el Email de tu administrador:</label>
-            <input type="text" id="userName" class="mt-2 p-2 border border-gray-300 rounded w-full" placeholder="Ingresa tu nombre" required>
-            <button id="submitUser" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Enviar</button>
-        </div>
+        <!-- Opciones de calificación -->
+        <div class="calificaciones" id="rating-buttons-container"></div>
+        
+        <!-- Btn para ampliar pantalla -->
+        <button id="fullscreen-btn">Ampliar</button>
+    </main>
 
-        <!-- Sección para seleccionar el vendedor -->
-        <div id="vendorSelectionSection" class="hidden mt-6">
-            <label for="vendorSelect" class="block text-gray-700">Selecciona un Vendedor:</label>
-            <select id="vendorSelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
-                <option value="">Seleccione un vendedor</option>
-            </select>
-            <button id="submitVendor" class="mt-4 bg-green-500 text-white py-2 px-4 rounded">Seleccionar Vendedor</button>
-        </div>
-
-        <!-- Sección para seleccionar la sucursal -->
-        <div id="branchSelectionSection" class="hidden mt-6">
-            <label for="branchSelect" class="block text-gray-700">Selecciona una Sucursal:</label>
-            <select id="branchSelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
-                <option value="">Seleccione una sucursal</option>
-            </select>
-            <button id="submitBranch" class="mt-4 bg-yellow-500 text-white py-2 px-4 rounded">Seleccionar Sucursal</button>
-        </div>
-
-        <!-- Sección para seleccionar la encuesta -->
-        <div id="surveySelectionSection" class="hidden mt-6">
-          <label for="surveySelect" class="block text-gray-700">Selecciona una Encuesta:</label>
-          <select id="surveySelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
-              <option value="">Seleccione una encuesta</option>
-          </select>
-          <button id="submitSurvey" class="mt-4 bg-purple-500 text-white py-2 px-4 rounded">Calificar</button>
-        </div>
-
-        <div id="messageArea" class="mt-4 text-center text-red-500"></div>
+    <!-- Modal para mostrar la calificación -->
+    <div id="modal" class="modal hidden">
+        <h2 id="modal-title"></h2>
+        <div id="modal-items"></div>
+        <button id="send-btn" class="hidden button">Siguiente</button>
+        <button id="close-btn" class="button">Terminar Encuesta</button>
     </div>
 
-    <script src="/js/user-get-vendors.js"></script>
+    <!-- Aquí se agregarán los scripts para manejar la lógica -->
+    <script>
+        // Función para obtener los datos de la encuesta
+        async function fetchSurveyData() {
+            const idEncuesta = localStorage.getItem('idEncuesta'); 
+            try {
+                const response = await fetch('https://stingray-poetic-likely.ngrok-free.app/webhook/encuesta', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idEncuesta: idEncuesta }) 
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error en la conexión al servidor');
+                }
+
+                const survey = await response.json(); // Cambiado a obtener un objeto
+                return survey; // Devolver el objeto de la encuesta
+            } catch (error) {
+                console.error('Error al obtener los datos de la encuesta:', error);
+                throw error; // Re-lanzar el error para manejo posterior
+            }
+        }
+
+        // Mostrar niveles de calificación
+        function displayRatingOptions(survey) {
+            const ratingButtonsContainer = document.getElementById('rating-buttons-container');
+            ratingButtonsContainer.innerHTML = ''; // Limpiar contenido previo
+
+            // Mostrar los niveles de calificación
+            const questions = survey.items.preguntas;
+            for (const level in questions) {
+                const button = document.createElement('button');
+                button.classList.add('rating-btn');
+                button.dataset.rating = level; // Guardar el nivel de calificación en data-attribute
+                button.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/743/743418.png" alt="${level}"><p>${level}</p>`; // Icono y texto
+
+                button.addEventListener('click', () => {
+                    handleRatingSelection(level); // Manejar la selección de calificación
+                });
+
+                ratingButtonsContainer.appendChild(button);
+            }
+        }
+
+        // Manejar la selección de calificación
+        function handleRatingSelection(level) {
+            document.getElementById('modal-title').textContent = `Calificación seleccionada: ${level}`;
+            // Aquí puedes agregar lógica para avanzar a la siguiente parte de la encuesta
+            document.getElementById('modal').classList.remove('hidden'); // Mostrar modal
+        }
+
+        // Lógica para iniciar el proceso
+        async function initSurvey() {
+            try {
+                const survey = await fetchSurveyData(); // Obtener los datos de la encuesta
+
+                if (survey) {
+                    displayRatingOptions(survey); // Mostrar niveles de calificación
+                } else {
+                    console.error('Encuesta no encontrada');
+                }
+            } catch (error) {
+                console.error('Error al inicializar la encuesta:', error);
+            }
+        }
+
+        // Llamar a la función para iniciar la encuesta
+        initSurvey();
+    </script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-semibold mb-4">Bienvenido</h1>
+
+        <!-- Sección para ingresar el nombre del usuario -->
+        <div id="userInputSection">
+            <label for="userName" class="block text-gray-700">Ingresa el Email de tu administrador:</label>
+            <input type="text" id="userName" class="mt-2 p-2 border border-gray-300 rounded w-full" placeholder="Ingresa tu nombre" required>
+            <button id="submitUser" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Enviar</button>
+        </div>
+
+        <!-- Sección para seleccionar el vendedor -->
+        <div id="vendorSelectionSection" class="hidden mt-6">
+            <label for="vendorSelect" class="block text-gray-700">Selecciona un Vendedor:</label>
+            <select id="vendorSelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
+                <option value="">Seleccione un vendedor</option>
+            </select>
+            <button id="submitVendor" class="mt-4 bg-green-500 text-white py-2 px-4 rounded">Seleccionar Vendedor</button>
+        </div>
+
+        <!-- Sección para seleccionar la sucursal -->
+        <div id="branchSelectionSection" class="hidden mt-6">
+            <label for="branchSelect" class="block text-gray-700">Selecciona una Sucursal:</label>
+            <select id="branchSelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
+                <option value="">Seleccione una sucursal</option>
+            </select>
+            <button id="submitBranch" class="mt-4 bg-yellow-500 text-white py-2 px-4 rounded">Seleccionar Sucursal</button>
+        </div>
+
+        <!-- Sección para seleccionar la encuesta -->
+        <div id="surveySelectionSection" class="hidden mt-6">
+          <label for="surveySelect" class="block text-gray-700">Selecciona una Encuesta:</label>
+          <select id="surveySelect" class="mt-2 p-2 border border-gray-300 rounded w-full">
+              <option value="">Seleccione una encuesta</option>
+          </select>
+          <button onclick="window.location.href='http://127.0.0.1:5500/REDISE%C3%91O/pag/calificar.html'" id="submitSurvey" class="mt-4 bg-purple-500 text-white py-2 px-4 rounded">Calificar</button>
+        </div>
+
+        <div id="messageArea" class="mt-4 text-center text-red-500"></div>
+    </div>
+
+    <script src="/js/user-get-vendors.js"></script>
+</body>
+</html>
