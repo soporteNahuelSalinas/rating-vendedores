@@ -94,6 +94,7 @@ document.getElementById('submitUser').addEventListener('click', async () => {
 document.getElementById('submitVendor').addEventListener('click', async () => {
     const vendorSelect = document.getElementById('vendorSelect');
     const selectedVendorId = vendorSelect.value;
+    const selectedVendorName = vendorSelect.options[vendorSelect.selectedIndex].text;
 
     if (!selectedVendorId) {
         document.getElementById('messageArea').textContent = 'Por favor, selecciona un vendedor.';
@@ -102,6 +103,7 @@ document.getElementById('submitVendor').addEventListener('click', async () => {
 
     const userEmail = document.getElementById('userName').value.trim();
     localStorage.setItem('idVendedor', selectedVendorId);
+    localStorage.setItem('nombreVendedor', selectedVendorName);
 
     // Ahora obtenemos las sucursales asociadas al vendedor seleccionado
     try {
@@ -140,11 +142,11 @@ document.getElementById('submitBranch').addEventListener('click', async () => {
     }
 
     // Almacenar el id de la sucursal
-    localStorage.setItem('idSucursalVendedor', selectedBranchId); // Almacena el id de la sucursal
+    localStorage.setItem('idSucursalVendedor', selectedBranchId);
 
     // Obtener el nombre de la sucursal seleccionada
-    const selectedBranchName = branchSelect.options[branchSelect.selectedIndex].text; // Obtener el nombre de la sucursal seleccionada
-    localStorage.setItem('nombreSucursalVendedor', selectedBranchName); // Almacenar el nombre de la sucursal
+    const selectedBranchName = branchSelect.options[branchSelect.selectedIndex].text;
+    localStorage.setItem('nombreSucursalVendedor', selectedBranchName); 
 
     const userEmail = document.getElementById('userName').value.trim();
 
@@ -188,5 +190,5 @@ document.getElementById('submitSurvey').addEventListener('click', () => {
     localStorage.setItem('idEncuesta', selectedSurveyId); // Almacenar el id de la encuesta
 
     // Aquí puedes implementar lo que quieras hacer después de seleccionar la encuesta
-    document.getElementById('messageArea').textContent = 'Gracias por calificar!';
+    document.getElementById('messageArea').textContent = '¡Nos vemos del otro lado!';
 });
