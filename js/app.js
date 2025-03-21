@@ -1,7 +1,7 @@
-// URL del webhook Make
-// const webhookUrl = 'https://hook.us2.make.com/xmayxoy1jlf2pjpvwf6b2wmio99w5wcf';
+// URL del webhook a Supabase
+const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/encuestas-supabase';
 // URL del webhook N8N
-const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
+// const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
 // Preguntas para cada nivel de atención
 const preguntas = {
