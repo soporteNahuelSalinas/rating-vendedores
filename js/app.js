@@ -41,12 +41,14 @@ const preguntas = {
 
 // Nuevas constantes para categorías y fuentes
 const categorias = [
-    'Liquidación Verano',
-    'Vuelta a Clases',
-    'Productos de Ezviz',
-    'Productos de Notebooks',
-    'Productos de Ventilación',
-    'Otro'
+    'Notebook',
+    'Impresoras',
+    'PC Armada',
+    'Insumos',
+    'Accesorios',
+    'Electrodomésticos',
+    'Monitores',
+    'Otros'
 ];
 
 const fuentes = [
