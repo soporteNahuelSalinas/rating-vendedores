@@ -1,5 +1,5 @@
 // URL del webhook a Supabase
-const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/encuestas-supabase';
+const webhookUrl = 'https://known-moccasin-magical.ngrok-free.app/webhook/encuestas-supabase';
 // URL del webhook N8N
 // const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
