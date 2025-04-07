@@ -1,5 +1,7 @@
 // URL del webhook a Supabase
 const webhookUrl = 'https://known-moccasin-magical.ngrok-free.app/webhook/encuestas-supabase';
+// URL del webhook negativo
+const webhookUrlNegativo = 'https://known-moccasin-magical.ngrok-free.app/webhook/aviso-negativo';
 // URL del webhook N8N
 // const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
 
@@ -242,6 +244,7 @@ function enviarDatos(telefono = null, force = false) {
         telefono: telefono
     };
 
+    // Enviar al webhook principal
     fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -257,7 +260,27 @@ function enviarDatos(telefono = null, force = false) {
         mostrarAgradecimiento();
     });
 
+    // Si la calificación es "Mala", enviar también al webhook negativo
+    if (nivelSeleccionado === 'Mala') {
+        enviarDatosNegativos(data);
+    }
+
     resetearDatos();
+}
+
+function enviarDatosNegativos(data) {
+    fetch(webhookUrlNegativo, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.text())
+    .then(text => {
+        console.log('Respuesta del servidor (negativo):', text);
+    })
+    .catch(error => {
+        console.error('Error en enviarDatosNegativos:', error);
+    });
 }
 
 // Muestra el mensaje de agradecimiento
@@ -326,7 +349,7 @@ modalItems.addEventListener('change', event => {
     }
 });
 
-// (Se mantiene el listener del btn de enviar como respaldo, aunque ya no es necesario)
+// (Listener del botón de enviar, se mantiene como respaldo)
 sendBtn.addEventListener('click', () => {
     cancelarInactividad();
     modal.classList.remove('visible');
@@ -338,7 +361,7 @@ sendBtn.addEventListener('click', () => {
     }
 });
 
-// Siguiente en modal de marcas (listener mantenido como respaldo)
+// Siguiente en modal de marcas (listener como respaldo)
 brandNextBtn.addEventListener('click', () => {
     cancelarInactividad();
     const selectedBrand = document.getElementById('brand-select');
@@ -359,7 +382,7 @@ closeBrandBtn.addEventListener('click', () => {
     enviarDatos(null, true);
 });
 
-// Siguiente en modal de fuentes (listener mantenido como respaldo)
+// Siguiente en modal de fuentes (listener como respaldo)
 sourceNextBtn.addEventListener('click', () => {
     cancelarInactividad();
     const selectedSource = document.getElementById('source-select');
