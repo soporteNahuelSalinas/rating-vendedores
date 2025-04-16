@@ -155,8 +155,8 @@ async function initDashboard() {
             tbody.innerHTML = data.map(item => `
                 <tr>
                     <td>${formatDate(item.fecha)}</td>
-                    <td>${item.campana || 'N/A'}</td>
-                    <td>${item.fuente || 'N/A'}</td>
+                    <td>${item.detalle || 'N/A'}</td>
+                    <td>${item.sucursal || 'N/A'}</td>
                     <td>${item.telefono || 'N/A'}</td>
                     <td>${item.vendedor}</td>
                     <td>${item.canal}</td>
