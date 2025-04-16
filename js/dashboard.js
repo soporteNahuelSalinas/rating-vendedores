@@ -10,7 +10,9 @@ async function initDashboard() {
             fecha: document.getElementById('fechaFiltro'),
             sucursal: document.getElementById('sucursalFiltro'),
             vendedor: document.getElementById('vendedorFiltro'),
-            canal: document.getElementById('canalFiltro')
+            canal: document.getElementById('canalFiltro'),
+            cantidad: document.getElementById('cantidadFiltro'),
+            calificacion: document.getElementById('calificacionFiltro') // Nuevo filtro
         };
 
         const charts = {
@@ -26,10 +28,15 @@ async function initDashboard() {
         });
         datosOriginales = await response.json();
         datosFiltrados = [...datosOriginales];
-        
+
+        // Aplicar filtro de cantidad predeterminado
+        datosFiltrados = datosFiltrados.slice(0, 30);
+
+        // Cargar opciones en los selectores
         populateSelect('sucursalFiltro', datosOriginales, 'sucursal');
         populateSelect('vendedorFiltro', datosOriginales, 'vendedor');
         populateSelect('canalFiltro', datosOriginales, 'canal');
+        populateSelect('calificacionFiltro', datosOriginales, 'calificacion'); // Cargar calificaciones
 
         charts.satisfaccion = createPieChart('satisfaccionChart', 'Nivel de Satisfacción');
         charts.vendedores = createBarChart('vendedoresChart', 'Registros por Vendedor');
@@ -46,6 +53,8 @@ async function initDashboard() {
             const sucursal = filters.sucursal.value;
             const vendedor = filters.vendedor.value;
             const canal = filters.canal.value;
+            const cantidad = filters.cantidad.value || "30"; // Valor por defecto
+            const calificacion = filters.calificacion.value; // Nuevo filtro
 
             datosFiltrados = datosOriginales.filter(item => {
                 const fechaItem = new Date(item.fecha);
@@ -59,9 +68,17 @@ async function initDashboard() {
                         fechaItem.getDate() <= fechaFiltro.getDate() + 7)) &&
                     (sucursal === '' || item.sucursal === sucursal) &&
                     (vendedor === '' || item.vendedor === vendedor) &&
-                    (canal === '' || item.canal === canal)
+                    (canal === '' || item.canal === canal) &&
+                    (calificacion === '' || item.calificacion === calificacion) // Filtro de calificación
                 );
             });
+
+            // Aplicar filtro de cantidad
+            if (cantidad && cantidad !== "Todas") {
+                datosFiltrados = datosFiltrados.slice(0, parseInt(cantidad));
+            } else if (cantidad === "Todas") {
+                datosFiltrados = datosOriginales;
+            }
 
             updateCharts(datosFiltrados);
             renderTable(datosFiltrados);
@@ -111,7 +128,8 @@ async function initDashboard() {
                         title: { display: true, text: title },
                         legend: { position: 'bottom' },
                         tooltip: { enabled: true }
-                    }
+                    },
+                    onClick: handleChartClick
                 }
             });
         }
@@ -133,9 +151,36 @@ async function initDashboard() {
                     maintainAspectRatio: false,
                     plugins: {
                         title: { display: true, text: title }
-                    }
+                    },
+                    onClick: handleChartClick
                 }
             });
+        }
+
+        function handleChartClick(event, elements) {
+            if (elements.length === 0) return;
+
+            const chart = event.chart;
+            const clickedElement = elements[0];
+            const datasetIndex = clickedElement.datasetIndex;
+            const index = clickedElement.index;
+
+            let filtroAdicional = {};
+
+            if (chart.canvas.id === 'satisfaccionChart') {
+                filtroAdicional.calificacion = chart.data.labels[index];
+            } else if (chart.canvas.id === 'vendedoresChart') {
+                filtroAdicional.vendedor = chart.data.labels[index];
+            }
+
+            datosFiltrados = datosOriginales.filter(item => {
+                return (
+                    (filtroAdicional.calificacion ? item.calificacion === filtroAdicional.calificacion : true) &&
+                    (filtroAdicional.vendedor ? item.vendedor === filtroAdicional.vendedor : true)
+                );
+            });
+
+            renderTable(datosFiltrados);
         }
 
         function populateSelect(selectorId, data, field) {
@@ -152,8 +197,12 @@ async function initDashboard() {
 
         function renderTable(data) {
             const tbody = document.getElementById('tablaRegistros');
-            tbody.innerHTML = data.map(item => `
-                <tr>
+            tbody.innerHTML = ''; // Limpiamos la tabla antes de agregar nuevas filas
+
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.classList.add('fade-in-row'); // Agregamos la clase de animación
+                row.innerHTML = `
                     <td>${formatDate(item.fecha)}</td>
                     <td>${item.detalle || 'N/A'}</td>
                     <td>${item.sucursal || 'N/A'}</td>
@@ -170,8 +219,9 @@ async function initDashboard() {
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
-                </tr>
-            `).join('');
+                `;
+                tbody.appendChild(row);
+            });
         }
 
         function formatDate(dateString) {
@@ -192,12 +242,10 @@ async function initDashboard() {
             return map[calificacion] || 'bg-secondary';
         }
 
-        // Eliminar registro con POST
         window.deleteRegistro = async function(id) {
             if (!confirm('¿Seguro que quieres eliminar este registro?')) return;
 
             try {
-                // Solicitud de eliminación con POST
                 await fetch("https://known-moccasin-magical.ngrok-free.app/webhook/encuesta/anyway/delete", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -206,8 +254,7 @@ async function initDashboard() {
                         accion: 'ELIMINAR'
                     })
                 });
-                
-                // Actualización de datos con POST
+
                 const refreshResponse = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

@@ -29,6 +29,16 @@
         body {
             font-family: poppins;
         }
+
+        /* Animación para destacar cambios */
+        @keyframes highlight {
+            0% { background-color: rgba(255, 255, 0, 0.2); }
+            100% { background-color: transparent; }
+        }
+
+        .highlight-change {
+            animation: highlight 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -57,6 +67,21 @@
                     <label class="form-label">Canal</label>
                     <select class="form-select" id="canalFiltro">
                         <option value="">Todos</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Cantidad de Respuestas</label>
+                    <select class="form-select" id="cantidadFiltro">
+                        <option value="30">30</option>
+                        <option value="100">100</option>
+                        <option value="1000">1000</option>
+                        <option value="Todas">Todas</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Calificación</label>
+                    <select class="form-select" id="calificacionFiltro">
+                        <option value="">Todas</option>
                     </select>
                 </div>
             </div>
