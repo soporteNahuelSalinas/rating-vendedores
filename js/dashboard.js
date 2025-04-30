@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', initDashboard);
 
 async function initDashboard() {
     try {
-        const API_URL = 'https://known-moccasin-magical.ngrok-free.app/webhook/dashboard/anyway';
+        // const API_URL = 'https://known-moccasin-magical.ngrok-free.app/webhook/dashboard/anyway';
+        const API_URL = 'http://192.168.1.93:5678/webhook/dashboard/anyway';
         let datosOriginales = [];
         let datosFiltrados = [];
 
@@ -242,11 +243,15 @@ async function initDashboard() {
             return map[calificacion] || 'bg-secondary';
         }
 
+        // Webhook para eliminar registros
+        // const webhookUrl = "https://known-moccasin-magical.ngrok-free.app/webhook/encuesta/anyway/delete";
+        const webhookUrl = "http://192.168.1.93:5678/webhook/encuesta/anyway/delete";
+
         window.deleteRegistro = async function(id) {
             if (!confirm('¿Seguro que quieres eliminar este registro?')) return;
 
             try {
-                await fetch("https://known-moccasin-magical.ngrok-free.app/webhook/encuesta/anyway/delete", {
+                await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 

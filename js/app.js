@@ -1,9 +1,10 @@
 // URL del webhook a Supabase
-const webhookUrl = 'https://known-moccasin-magical.ngrok-free.app/webhook/encuestas-supabase';
+// const webhookUrl = 'https://known-moccasin-magical.ngrok-free.app/webhook/encuestas-supabase';
+const webhookUrl = 'http://192.168.1.93:5678/webhook/encuestas-supabase';
 // URL del webhook negativo
-const webhookUrlNegativo = 'https://known-moccasin-magical.ngrok-free.app/webhook/aviso-negativo';
-// URL del webhook N8N
-// const webhookUrl = 'https://stingray-poetic-likely.ngrok-free.app/webhook/ef94cc20-fa5b-4f95-bbff-860305006c70';
+
+const webhookUrlNegativo = 'http://192.168.1.93:5678/webhook/aviso-negativo';
+// const webhookUrlNegativo = 'https://known-moccasin-magical.ngrok-free.app/webhook/aviso-negativo';
 
 // Preguntas para cada nivel de atención
 const preguntas = {
